@@ -3,7 +3,6 @@ package com.example.sb_1010_1.spring;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
@@ -11,13 +10,6 @@ import org.springframework.stereotype.Service;
 public class MemberRegisterService {
 	@Autowired
 	private MemberDao memberDao;
-
-	public MemberRegisterService() {
-	}
-	
-	public MemberRegisterService(MemberDao memberDao) {
-		this.memberDao = memberDao;
-	}
 
 	public Long regist(RegisterRequest req) {
 		Member member = memberDao.selectByEmail(req.getEmail());

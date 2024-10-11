@@ -30,7 +30,7 @@ public class ListArticleService {
 
 			int totalPageCount = calculateTotalPageCount(totalArticleCount);
 
-			int firstRow = (requestPageNumber - 1) * COUNT_PER_PAGE ;
+			int firstRow = (requestPageNumber - 1) * COUNT_PER_PAGE;
 			int endRow = firstRow + COUNT_PER_PAGE - 1;
 
 			if (endRow > totalArticleCount) {

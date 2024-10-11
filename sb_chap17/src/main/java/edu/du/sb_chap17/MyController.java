@@ -83,17 +83,15 @@ public class MyController {
     }
 
     @GetMapping("delete_form")
-    public String deleteForm(Model model, HttpServletRequest request) {
-        DeleteRequest deleteRequest = new DeleteRequest(Integer.parseInt(request.getParameter("articleId")),
-                request.getParameter("password"));
-        model.addAttribute("deleteRequest", deleteRequest);
-        return "delete";
+    public String deleteForm() {
+        return "delete_form";
     }
 
-    @GetMapping("delete")
-    public String delete(Model model,HttpServletRequest request) {
+    @PostMapping("delete")
+    public String delete(HttpServletRequest request) {
         try {
-            DeleteRequest deleteRequest = (DeleteRequest)model.getAttribute("deleteRequest");
+            DeleteRequest deleteRequest = new DeleteRequest(Integer.parseInt(request.getParameter("articleId")),
+                    request.getParameter("password"));
             deleteSerivce.deleteArticle(deleteRequest);
             return "delete_success";
         } catch (Exception ex) {
@@ -102,6 +100,4 @@ public class MyController {
         }
     }
 
-    @GetMapping("delete_success")
-    public String deleteSuccess() {}
 }
