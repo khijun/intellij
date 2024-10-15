@@ -1,8 +1,11 @@
 package edu.du.sb1011.controller;
 
 import edu.du.sb1011.dto.BoardDto;
+import edu.du.sb1011.dto.MemberDto;
 import edu.du.sb1011.exception.InvalidBoardException;
+import edu.du.sb1011.exception.NotLoginedException;
 import edu.du.sb1011.service.BoardService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,18 +33,29 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/openBoardWrite.do")
-	public String openBoardWrite() throws Exception{
-		return "/board/boardWrite";
+	public String openBoardWrite(Model model, HttpServletRequest request) throws Exception{
+		try {
+			MemberDto member = (MemberDto)request.getSession().getAttribute(("member"));
+			if(member == null)
+				throw new NotLoginedException();
+			model.addAttribute("member", member);
+			return "board/boardWrite";
+		}catch(NotLoginedException e){
+			e.printStackTrace();
+			model.addAttribute("msg", e.getClass().getName());// 임시 예외처리
+			return "board/boardError.html";// 오류페이지
+		}
 	}
 	
 	@PostMapping("/board/insertBoard.do")
-	public String insertBoard(BoardDto board) throws Exception{
+	public String insertBoard(Model model, BoardDto board) throws Exception{
 		try{
 			boardService.insertBoard(board);//	보드에 필요한 뭔가가 없음
 			return "redirect:/board/openBoardList.do";
 		}catch(InvalidBoardException e){
 			e.printStackTrace();
-			return "redirect:/board/openBoardList.do";//	에러시 에러화면으로 이동해야함. 수정 필요.
+			model.addAttribute("msg", e.getClass().getName());// 임시 예외처리
+			return "board/boardError.html";// 오류페이지
 		}
 	}
 	
@@ -54,13 +68,13 @@ public class BoardController {
 		return "/board/boardDetail";
 	}
 	
-	@GetMapping("/board/updateBoard.do")
+	@PostMapping("/board/updateBoard.do")
 	public String updateBoard(BoardDto board) throws Exception{
 		boardService.updateBoard(board);
 		return "redirect:/board/openBoardList.do";
 	}
 	
-	@GetMapping("/board/deleteBoard.do")
+	@PostMapping("/board/deleteBoard.do")
 	public String deleteBoard(int boardIdx) throws Exception{
 		boardService.deleteBoard(boardIdx);
 		return "redirect:/board/openBoardList.do";

@@ -10,7 +10,7 @@ import java.util.List;
 public interface MemberService {
     List<MemberDto> getAll();
 
-    MemberDto login(HttpSession session, MemberDto inputDto) throws LoginFailedException;
+    MemberDto login(MemberDto inputDto) throws LoginFailedException;
 
     int delOne(int memberIdx);
     int addOne(MemberDto memberDto);

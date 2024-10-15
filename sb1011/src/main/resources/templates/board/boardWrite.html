@@ -8,8 +8,8 @@
 <body>
 	<div class="container">
 	    <h2>게시글 등록</h2>
-	    <form id="frm" name="frm" method="post" action="/board/insertBoard.do">
-			<input type="hidden" id="creatorId" th:value="${member.memberIdx}"/>
+		<form id="frm" name="frm" method="post" action="/board/insertBoard.do">
+			<input type="hidden" id="creatorId" name="creatorId" th:value="${member.memberIdx}"/>
 	    	<table class="board_detail">
 	    		<tr>
 	    			<td>제목</td>

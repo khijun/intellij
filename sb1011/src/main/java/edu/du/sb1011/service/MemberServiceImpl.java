@@ -24,15 +24,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto login(HttpSession session, MemberDto inputDto) throws LoginFailedException {
+    public MemberDto login(MemberDto inputDto) throws LoginFailedException {
         try {
+            System.out.println(inputDto);
             MemberDto dto = mm.getOneById(inputDto.getId());//  입력한 아이디로 부터 갖고온 계정 정보
+            System.out.println(dto);
             if(dto == null)//   입력한 아이디에 해당하는 계정이 없을 시
                 throw new IdNotFoundException();
             String password = inputDto.getPassword();
             if(!(dto.getPassword().equals(inputDto.getPassword())))//   입력한 비번과 입력한 아이디의 계정의 비번이 비일치시
                 throw new PasswordWrongException();
-            session.setAttribute("member", dto);
             return dto;
         }catch (IdNotFoundException | PasswordWrongException e){
             e.printStackTrace();
