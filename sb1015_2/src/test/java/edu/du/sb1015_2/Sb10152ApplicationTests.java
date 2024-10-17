@@ -40,4 +40,5 @@ class Sb10152ApplicationTests {
         System.out.println(myDataRepository.findById(1L));
     }
 
+
 }
