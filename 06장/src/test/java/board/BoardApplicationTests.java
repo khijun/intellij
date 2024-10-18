@@ -22,4 +22,5 @@ public class BoardApplicationTests {
 	public void testSqlSession() throws Exception{
 		System.out.println(sqlSession.toString());
 	}
+	
 }
