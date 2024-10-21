@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+<!--    <link rel="stylesheet" th:href="@{/css/style.css}"/>-->
+    <link rel="stylesheet" href="/static/css/style.css"/>
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>부서 번호</th>
+            <th>부서명</th>
+            <th>부서 위치</th>
+            <th>삭제</th>
+        </tr>
+        <tr th:each="dept:${depts}">
+            <td th:text="${dept.getDeptno()}"></td>
+            <td th:text="${dept.getDname()}"></td>
+            <td th:text="${dept.getLoc()}"></td>
+            <td><a th:href="@{/dept/delete/{id}(id=${dept.getDeptno()})}" th:text="삭제하기">X</a></td>
+        </tr>
+    </table>
+<button onclick="location.href='/dept/writeForm'">글쓰기</button>
+</body>
+</html>
