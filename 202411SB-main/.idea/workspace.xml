@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f487b362-a369-4d7a-918e-b25a15dc0e8f" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/../demo9/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/Demo9Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/FileUploadBoardApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/board/controller/BoardController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/board/dto/BoardDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/board/dto/BoardFileDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/board/mapper/BoardMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/board/service/BoardService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/board/service/BoardServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/common/ExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/common/FileUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/configuration/WebMvcConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/entity/Board.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/fileuploadboard/entity/BoardFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/member/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/member/controller/BeginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/member/controller/SampleController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/member/entity/Member.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/member/entity/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/member/repository/MemberRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/member/service/MemberService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/survey/AnsweredData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/survey/Question.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/survey/Respondent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/survey/SurveyController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/java/com/example/demo/survey/SurveyService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/mapper/sql-board.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/css/app.62cbffcb.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/css/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/js/app.069e3d1e.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/js/app.069e3d1e.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/js/chunk-vendors.1a657902.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/js/chunk-vendors.1a657902.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/static/js/scripts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/board/boardDetail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/board/boardList.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/board/boardWrite.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/error/error_default.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/layout/basic.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/sample/accessDenied.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/sample/admin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/sample/all.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/sample/joinForm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/sample/member.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/survey/surveyDetail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/main/resources/templates/survey/surveyForm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../demo9/src/test/java/com/example/demo/Demo9ApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/java/edu/du/sb1024/Sb1024Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/java/edu/du/sb1024/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/java/edu/du/sb1024/controller/BeginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/java/edu/du/sb1024/controller/SampleController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/java/edu/du/sb1024/entity/Member.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/java/edu/du/sb1024/repository/MemberRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/java/edu/du/sb1024/service/UserDetailsServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/java/edu/du/sb1024/spring/RegisterRequestValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/messages/label.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/static/assets/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/static/css/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/static/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/static/js/scripts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/templates/layout/basic.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/templates/sample/accessDenied.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/templates/sample/admin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/templates/sample/all.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/main/resources/templates/sample/member.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sb1024/src/test/java/edu/du/sb1024/Sb1024ApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sb1022secu4/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sb1022secu4/build.gradle" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "khijun"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/khijun/intellij.git",
+    "accountId": "b92aeb7b-ada7-41e6-8b95-bde5c9e642e6"
+  }
+}]]></component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2o3nqBLBlP00o8VqQPzoIQwbqYR" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/_dev/IdeaProjects/sb1025",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="f487b362-a369-4d7a-918e-b25a15dc0e8f" name="변경" comment="" />
+      <created>1730107314737</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1730107314737</updated>
+      <workItem from="1730107315758" duration="63000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
