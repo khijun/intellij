@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 상세 정보</title>
+    <style>
+        body{
+            margin: auto;
+            max-width: 1300px;
+        }
+        a{
+            text-decoration: none;
+        }
+        table {
+            width: 100%; /* 테이블 너비를 100%로 설정하여 오른쪽 끝까지 차지 */
+            border-collapse: collapse;
+            margin-bottom: 20px; /* 테이블 아래 마진 */
+        }
+        th {
+            border: 1px solid #ddd;
+            padding: 5px; /* th의 패딩을 줄임 */
+            text-align: left;
+            background-color: #f2f2f2;
+            width: 100px; /* th의 너비를 설정 */
+        }
+        td {
+            border: 1px solid #ddd;
+            padding: 5px; /* td의 패딩을 줄임 */
+            text-align: left;
+        }
+        tr{
+            height: 50px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: auto;
+            max-width: 1300px;
+            padding: 70px 20px 20px;
+        }
+
+
+        h1 {
+            text-align: left;
+            color: #333;
+        }
+
+        .container {
+            display: flex; /* Flexbox로 설정 */
+            justify-content: flex-start; /* 왼쪽 정렬 */
+            align-items: flex-start;
+            width: 100%; /* 부모 컨테이너의 너비를 100%로 설정 */
+            margin-bottom: 100px;
+        }
+
+        .image-container {
+            width: 600px; /* 이미지 칸의 너비 설정 600px */
+            height: 600px;
+            margin-right: 20px; /* 이미지와 상세정보 간의 마진 */
+        }
+
+        .image-container img {
+            width: 600px; /* 이미지 너비를 100%로 설정하여 부모 컨테이너에 맞추기 */
+            height: 600px; /* 이미지 높이 설정 */
+            object-fit: cover; /* 비율에 맞게 이미지 잘라내기 */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .details-container {
+            width: 100%; /* 상세정보 칸의 너비를 100%로 설정하여 오른쪽 끝까지 늘리기 */
+        }
+
+        .review-table {
+            width: 100%; /* 테이블 너비 100% */
+            border-collapse: collapse; /* 테두리 겹치지 않게 설정 */
+        }
+
+        .review-table th, .review-table td {
+            padding: 8px; /* 셀 내부 여백 */
+            text-align: left; /* 왼쪽 정렬 */
+            border: none; /* 셀 내부 테두리 제거 */
+        }
+
+        .review-table th {
+            background-color: #f2f2f2; /* 헤더 배경색 */
+            border-top: 1px solid #ddd; /* th 위에 구분선 추가 */
+        }
+
+        .review-table tr {
+            border-bottom: 1px solid #ddd; /* tr 사이에 구분선 추가 */
+        }
+
+        .order-buttons {
+            display: flex; /* 버튼들을 가로로 배치하기 위해 flexbox 사용 */
+            width: 100%; /* 부모 요소의 너비를 100%로 설정 */
+        }
+
+        .order-buttons .btn {
+            display: flex;
+            justify-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            /*text-align: center;*/
+            height: 40px; /* 버튼 높이 설정 */
+            cursor: pointer; /* 마우스 커서 변경 */
+            font-size: 16px; /* 버튼 글자 크기 */
+            background-color: white; /* 배경색을 흰색으로 설정 */
+            color: black; /* 글자색을 검정색으로 설정 */
+            border: 1px solid #ddd; /* 테두리 */
+            border-radius: 0; /* 버튼의 끝을 네모나게 설정 (둥글게 하지 않음) */
+            flex-grow: 1; /* 버튼들이 부모 요소에 비례하여 크기를 자동으로 조정하도록 설정 */
+        }
+
+        .order-buttons .btn-like {
+            width: 20%; /* 첫 번째 버튼의 너비를 부모의 20%로 설정 */
+        }
+
+        .order-buttons .btn-order {
+            width: 40%; /* 두 번째 버튼의 너비를 부모의 40%로 설정 */
+        }
+
+        .order-buttons .btn-cart {
+            width: 40%; /* 세 번째 버튼의 너비를 부모의 40%로 설정 */
+        }
+
+        /* 버튼 호버 시 스타일 */
+        .order-buttons .btn:hover {
+            opacity: 0.8;
+        }
+
+        .review-section {
+            margin-top: 30px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: #fff;
+        }
+
+        .review-section h2 {
+            margin-top: 0;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .reviews-list {
+            margin-top: 15px;
+        }
+
+        .review {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h1 th:text="${item.name}">상품 상세 정보</h1>
+
+    <div class="container">
+        <!-- 상품 이미지 칸 -->
+        <div class="image-container">
+            <img src="/images/items/item_page_test_img.png" alt="상품 이미지"/>
+        </div>
+
+        <!-- 상세정보 및 주문하기 버튼 -->
+        <div class="details-container">
+            <table>
+                <tr>
+                    <th>판매가</th>
+                    <td th:text="${item.price}"></td>
+                </tr>
+                <tr>
+                    <th>평점</th>
+                    <td>평점데이터값</td>
+                </tr>
+                <tr>
+                    <th>혜택</th>
+                    <td>혜택데이터값</td>
+                </tr>
+                <tr>
+                    <th>제조사</th>
+                    <td th:text="${item.company}">제조사데이터값</td>
+                </tr>
+                <tr>
+                    <th>옵션 선택</th>
+                    <td>
+                        <button>추가 옵션 선택</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>재고</th>
+                    <td th:text="${item.quantity}"></td>
+                </tr>
+            </table>
+
+            <!-- 주문하기 버튼 추가 -->
+            <div class="order-buttons">
+                <button class="btn btn-like">Like</button>
+                <button class="btn btn-order" th:href="@{/order/{id}(id=${item.id})}">주문하기</button>
+                <a class="btn btn-cart" th:href="@{/cart/add/{id}(id=${item.id})}">카트에 추가하기</a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <table class="review-table">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>별점</th>
+                <th>내용</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>추천</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="review, iterStat : ${reviews}">
+                <td th:text="${iterStat.index + 1}"></td> <!-- 번호 (1부터 시작) -->
+                <td th:text="${review.rating}"></td> <!-- 별점 -->
+                <td th:text="${review.content}"></td> <!-- 내용 -->
+                <td th:text="${review.member.username}"></td> <!-- 작성자 -->
+                <td th:text="${#temporals.format(review.replyTime, 'yyyy-MM-dd HH:mm')}"></td> <!-- 작성일 (날짜 포맷팅) -->
+                <td th:text="${review.likes}"></td> <!-- 추천 -->
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>★★★☆☆</td>
+                <td>품질이 괜찮지만 배송이 늦었습니다.</td>
+                <td>김영희</td>
+                <td>2024-11-05</td>
+                <td>18명</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>★★★★★</td>
+                <td>가격 대비 성능이 우수해요.</td>
+                <td>박철수</td>
+                <td>2024-11-04</td>
+                <td>30명</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</body>
+</html>

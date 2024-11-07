@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기본 레이아웃</title>
+    <style>
+        /* 기존 CSS 스타일 그대로 복사 */
+        /* body, .navbar 등 스타일 */
+        /* body 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 60px 20px;
+        }
+
+        /* 네비게이션 바 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 0 20px;
+            border: none;
+            border-bottom: 1px solid #007bff;
+            z-index: 1000;
+        }
+
+        .navbar .left, .navbar .right {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: black;
+            margin: 0;
+            text-decoration: none;
+            padding: 0 15px;
+            border: none;
+            background-color: transparent;
+            transition: background-color 0.3s;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar a:hover {
+            background-color: #f0f0f0;
+            color: #007bff;
+        }
+
+        .navbar a:not(.no-border) {
+            border-right: 1px solid #555;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .search-container input[type="text"] {
+            padding: 5px;
+            height: 30px;
+            width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .search-container button {
+            padding: 10px 15px;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 네비게이션 바 -->
+<div class="navbar" th:fragment="navbar">
+    <div class="left">
+        <a href="#" th:href="@{/}" class="no-border">홈</a>
+        <div class="search-container">
+            <input type="text" id="searchQuery" name="searchQuery" placeholder="검색...">
+            <button type="button" onclick="search()">검색</button>
+        </div>
+    </div>
+    <div class="right">
+        <a href="#" th:href="@{/}">상품 목록</a>
+        <a href="#" th:href="@{/cart}">장바구니</a>
+        <a href="#" th:href="@{/login}" class="no-border">로그인</a>
+    </div>
+</div>
+
+<!-- 페이지별 컨텐츠 -->
+<div layout:fragment="content"></div>
+
+<script>
+    function search() {
+        let searchQuery = document.getElementById("searchQuery").value;
+        location.href = "/search/" + searchQuery;  // URL에 입력값 추가
+        //빈 문자열일 시에 다시 오게해야함
+    }
+</script>
+
+</body>
+</html>

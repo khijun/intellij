@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{member.register}">Register</title>
+</head>
+<body>
+<p th:text="#{register.done(${registerRequest.name}, ${registerRequest.email})}">
+    Registration successful
+</p>
+<p>
+    <a th:href="@{/main}">
+        [<span th:text="#{go.main}">Go to Main</span>]
+    </a>
+</p>
+</body>
+</html>
