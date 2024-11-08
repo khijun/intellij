@@ -1,6 +1,7 @@
 package edu.du.sb1031.service;
 
 import edu.du.sb1031.entity.Cart;
+import edu.du.sb1031.entity.Item;
 import edu.du.sb1031.entity.Member;
 import edu.du.sb1031.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,14 @@ public class CartService {
 
     public List<Cart> findByMember(Member member) {
         return cartRepository.findByMember(member);
+    }
+
+    public Cart findByMemberAndItem(Member member, Item item) {
+        return cartRepository.findByMemberAndItem(member, item);
+    }
+
+    public void delete(Cart cart) {
+        cartRepository.delete(cart);
     }
 
 }

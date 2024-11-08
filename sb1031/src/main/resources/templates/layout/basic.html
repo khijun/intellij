@@ -118,6 +118,18 @@
         location.href = "/search/" + searchQuery;  // URL에 입력값 추가
         //빈 문자열일 시에 다시 오게해야함
     }
+
+    // 이미지 로드 오류를 처리하는 함수
+    function handleImageError(image) {
+        image.onerror = null; // 재귀 호출 방지
+        image.src = '/images/items/main_test_img.jpg'; // 기본 이미지로 대체
+    }
+
+    // HTML 이미지 태그에서 오류 발생 시 대체 이미지 적용
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+        img.onerror = () => handleImageError(img);
+    });
 </script>
 
 </body>

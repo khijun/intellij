@@ -24,6 +24,7 @@ public class RegisterController {
 
     @PostMapping
     public String register(Member member){
+        memberService.save(member);
         return "redirect:/";
     }
 }

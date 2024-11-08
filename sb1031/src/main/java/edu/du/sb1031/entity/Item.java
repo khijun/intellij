@@ -5,10 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -21,9 +19,16 @@ public class Item {
     private Long id;
     private String name;
     private int price;
-    private int quantity;
+    private int stock;
     private String company;
     private String imageName;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @ToString.Exclude
+    private Category category;
+    @OneToMany
+    @ToString.Exclude
+    private List<Review> reviews;
 
     public String getImageName() {
         if (this.imageName == null) {
@@ -31,7 +36,4 @@ public class Item {
         }
         return imageName;
     }
-
-    //      상품 이미지 하나
-//    private int category; // 카테고리 번호
 }

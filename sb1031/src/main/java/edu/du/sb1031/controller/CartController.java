@@ -2,6 +2,7 @@ package edu.du.sb1031.controller;
 
 import edu.du.sb1031.dto.AuthInfo;
 import edu.du.sb1031.entity.*;
+import edu.du.sb1031.exception.NotEnoughStockException;
 import edu.du.sb1031.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class CartController {
     private final OrderItemService ois;
     private final OrderService os;
     private final DeliveryService ds;
+    private final CartService cartService;
 
     @GetMapping
     public String cart(HttpServletRequest request, Model model) {
@@ -67,7 +69,7 @@ public class CartController {
 
     @PostMapping("/payment")
     public String buy(HttpServletRequest request, Model model, Delivery delivery) {
-        try{
+        try {
             Long memberId = ((AuthInfo) request.getSession().getAttribute("authInfo")).getId();
             Member member = ms.findById(memberId);
 
@@ -77,11 +79,23 @@ public class CartController {
             os.save(order);
 
             List<Cart> carts = cs.findByMember(member);
-            for(Cart cart : carts){
+            List<OrderItem> orderItems = new ArrayList<>();
+            for (Cart cart : carts) {
                 OrderItem orderItem = new OrderItem(null, order, cart.getQuantity(), cart.getItem());
+                orderItems.add(orderItem);
                 ois.save(orderItem);
             }
+            order.setOrderItems(orderItems);
 
+            for (OrderItem orderItem : order.getOrderItems()) {
+                orderItem.getItem().setStock(orderItem.getItem().getStock() - orderItem.getQuantity());
+                if (orderItem.getItem().getStock() < 0) {
+                    throw new NotEnoughStockException();
+                }
+                is.save(orderItem.getItem());
+            }
+        } catch (NotEnoughStockException e) {
+            System.out.println("CartController.buy: 아이템 재고 부족");;
         }catch(Exception e){
             System.out.println("CartController.buy: 인증 실패");
         }
@@ -107,9 +121,25 @@ public class CartController {
             cart.setItem(item);
             cart.setQuantity(1);    // 기본값, 수정 여부 불확실
             cs.add(cart);
-            model.addAttribute("member", member);
         }catch (Exception e) {
             System.out.println("CartController.add: 인증 실패");
+        }
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/sub/{id}")
+    public String sub(@PathVariable(name = "id") Long itemId, Model model, HttpServletRequest request) {
+        try{
+            Long memberId = ((AuthInfo)request.getSession(true).getAttribute("authInfo")).getId();
+            Member member = ms.findById(memberId);
+            Item item = is.findById(itemId);
+            if(member == null||item == null) {
+                throw new Exception();
+            }
+            Cart cart = cs.findByMemberAndItem(member, item);
+            cartService.delete(cart);
+        }catch (Exception e) {
+            System.out.println("CartController.sub: 인증 실패");
         }
         return "redirect:/cart";
     }

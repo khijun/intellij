@@ -23,9 +23,9 @@ public class Member {
     @Column(unique = true)
     private String username;
     private String password;
-    private String gender;
+    private char role;// user, delete, freeze, admin
+    private char gender;
     private LocalDateTime birthday;
-    private Integer role;// user, delete, freeze, admin
     @OneToMany(mappedBy = "member")
     List<Order> orders = new ArrayList<>();
     @OneToMany(mappedBy = "member")

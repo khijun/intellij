@@ -131,14 +131,6 @@
         .order-buttons .btn:hover {
             opacity: 0.8;
         }
-
-        .review-section {
-            margin-top: 30px;
-            border: 1px solid #ccc;
-            padding: 15px;
-            background-color: #fff;
-        }
-
         .review-section h2 {
             margin-top: 0;
         }
@@ -165,15 +157,6 @@
         .btn:hover {
             background-color: #218838;
         }
-
-        .reviews-list {
-            margin-top: 15px;
-        }
-
-        .review {
-            border-bottom: 1px solid #ddd;
-            padding: 10px 0;
-        }
     </style>
 </head>
 <body>
@@ -196,7 +179,7 @@
                 </tr>
                 <tr>
                     <th>평점</th>
-                    <td>평점데이터값</td>
+                    <td th:text="${rating_avg}">평점데이터값</td>
                 </tr>
                 <tr>
                     <th>혜택</th>
@@ -214,7 +197,7 @@
                 </tr>
                 <tr>
                     <th>재고</th>
-                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.stock}"></td>
                 </tr>
             </table>
 
@@ -231,12 +214,12 @@
         <table class="review-table">
             <thead>
             <tr>
-                <th>번호</th>
-                <th>별점</th>
-                <th>내용</th>
-                <th>작성자</th>
-                <th>작성일</th>
-                <th>추천</th>
+                <th style="width: 7.5%;">번호</th>
+                <th style="width: 15%;">별점</th>
+                <th style="width: 50%;">내용</th>
+                <th style="width: 10%;">작성자</th>
+                <th style="width: 10%;">작성일</th>
+                <th style="width: 7.5%;">추천</th>
             </tr>
             </thead>
             <tbody>

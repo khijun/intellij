@@ -1,10 +1,11 @@
 package edu.du.sb1031.dto;
 
 public class Define {
-    public final static int USER = 1;
-    public final static int FREEZE = 2;
-    public final static int DELETE = 3;
-    public final static int ADMIN = 100;
+    public static final char USER = 'U';
+    public static final char ADMIN = 'A';
+    public static final char FREEZE = 'F';
+    public static final char DELETE = 'D';
 
-    public final static int NORMAL = 1;
+    public static final char MALE = 'M';
+    public static final char FEMALE = 'F';
 }
