@@ -16,6 +16,7 @@
             width: 100%;
             height: 400px;
             border: 1px solid #ddd;
+            margin-bottom: 40px;
         }
 
         .product-image {
@@ -37,6 +38,10 @@
             border-right: 1px solid #ddd;
             display: flex;
             flex-direction: column;
+        }
+
+        .product-info p{
+            color: dimgrey;
         }
 
         .product-buy {
@@ -61,20 +66,15 @@
             margin-top: 20px;
         }
 
-        .product-buy .button-container div {
-            flex: 1;
-            padding: 10px;
-            cursor: pointer;
-            border: 1px solid grey;
-        }
-
-        .product-buy .button-container button {
+        .product-buy .button-container a {
+            width: 100%;
             padding: 10px 20px;
             background-color: #fff;
             color: grey;
             border: 1px solid grey;
             text-align: center;
             cursor: pointer;
+            text-decoration: none;
         }
 
         .tab_area {
@@ -104,7 +104,7 @@
             color: #ffffff;
             cursor: pointer;
         }
-        .tab_area a{
+        a{
             text-decoration: none;
         }
         .tab_menu a:visited {
@@ -115,37 +115,28 @@
 <body>
 <div layout:fragment="content">
     <div class="tab_area">
-        <div class="tab_menu">추천순</div>
-        <div class="tab_menu">판매량순</div>
-        <div class="tab_menu">낮은가격순</div>
-        <div class="tab_menu">높은가격순</div>
-        <div class="tab_menu">최근등록순</div>
-        <div class="tab_menu">후기많은순</div>
-    </div>
-
-    <div class="tab_area">
-        <a href="/search/recommend" class="tab_menu">추천순</a>
-        <a href="/search/mostSell" class="tab_menu">판매량순</a>
-        <a href="/search/lowPrice" class="tab_menu">낮은가격순</a>
-        <a href="/search/highPrice" class="tab_menu">높은가격순</a>
-        <a href="/search/newest" class="tab_menu">최근등록순</a>
-        <a href="/search/mostReviewed" class="tab_menu">후기많은순</a>
+        <a href="/search?type=recommend" class="tab_menu">추천순</a>
+        <a href="/search?type=mostSell" class="tab_menu">판매량순</a>
+        <a href="/search?type=lowPrice" class="tab_menu">낮은가격순</a>
+        <a href="/search?type=highPrice" class="tab_menu">높은가격순</a>
+        <a href="/search?type=newest" class="tab_menu">최근등록순</a>
+        <a href="/search?type=mostReviewed" class="tab_menu">후기많은순</a>
     </div>
 
 
     <div class="product-container" th:each="item : ${items}">
-        <div class="product-image">
+        <a th:href="@{/item/{id}(id=${item.id})}" class="product-image">
             <img th:src="@{'/static/images/items/' + ${item.imageName}}" alt="상품 이미지">
-        </div>
+        </a>
         <div class="product-info">
-            <h2 th:text="${item.name}">상품 이름</h2>
-            <!--        <p th:text="${item.content}">상품 설명을 여기에 입력합니다. 상품에 대한 간략한 정보를 넣을 수 있습니다.</p>-->
+            <a th:href="@{/item/{id}(id=${item.id})}" th:text="${item.name}">상품 이름</a>
+                    <p th:text="${item.content}">상품 설명을 여기에 입력합니다. 상품에 대한 간략한 정보를 넣을 수 있습니다.</p>
         </div>
         <div class="product-buy">
             <div class="price" th:text="'₩' + ${item.price}">₩10,000</div>
             <div class="button-container">
-                <div class="like-button">찜하기</div>
-                <div class="buy-button">구매하기</div>
+                <a href="" class="like-button">찜하기</a>
+                <a th:href="@{/cart/add/{id}(id=${item.id})}" class="buy-button">구매하기</a>
             </div>
         </div>
     </div>

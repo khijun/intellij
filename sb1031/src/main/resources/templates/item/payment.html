@@ -169,37 +169,57 @@
         .numberInput {
             width: 40px;
         }
+        .product-name {
+            width: 30%;  /* 상품명 열의 너비 */
+        }
+
+        .product-price {
+            width: 20%;  /* 상품가격 열의 너비 */
+        }
+
+        .quantity {
+            width: 15%;  /* 수량 열의 너비 */
+        }
+
+        .order-amount {
+            width: 20%;  /* 주문금액 열의 너비 */
+        }
+
+        .others {
+            width: 15%;  /* 기타 열의 너비 */
+        }
     </style>
 </head>
 <body>
 <div layout:fragment="content">
 
-    <h1>장바구니</h1>
+    <h1>결제</h1>
+
     <form th:action="@{/payment}" th:object="${paymentWrapper}" method="post">
         <div>
             <table class="cart-table">
                 <thead>
                 <tr>
-                    <th>상품명</th>
-                    <th>상품가격</th>
-                    <th>수량</th>
-                    <th>주문금액</th>
-                    <th>기타</th>
+                    <th class="product-name">상품명</th>
+                    <th class="product-price">상품가격</th>
+                    <th class="quantity">수량</th>
+                    <th class="order-amount">주문금액</th>
+                    <th class="others">기타</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="cart, iterStat : ${paymentWrapper.carts}">
+                <tr>
                     <td class="item-name">
-                        <img th:src="@{'/images/items/' + ${cart.item.imageName}}" alt="이미지">
-                        <a th:text="${cart.item.name}" th:href="@{/item/{itemId}(itemId = ${cart.item.id})}">아이템 이름</a>
+                        <img th:src="@{'/images/items/' + ${item.imageName}}" alt="이미지">
+                        <a th:text="${item.name}" th:href="@{/item/{itemId}(itemId = ${item.id})}">아이템 이름</a>
                     </td>
-                    <td class="itemPriceText" th:text="${cart.item.price}"></td>
-                    <td><input type="number" class="numberInput" th:field="*{carts[__${iterStat.index}__].quantity}" th:attr="data-id=${cart.id}"/></td>
-                    <input type="hidden" th:field="*{carts[__${iterStat.index}__].item}" th:value="${cart.item.id}"/>
-                    <td><span th:text="${cart.item.price * cart.quantity}" class="totalPrice">0</span></td>
-                    <td>
-                        <button id="btn-delete-item">삭제</button>
-                    </td>
+                    <td class="itemPriceText" th:text="${item.price}"></td>
+                    <td><input type="number" class="numberInput" th:field="*{carts[__${0}__].quantity}"/></td>
+                    <input type="hidden" th:field="*{carts[__${0}__].item}" th:value="${item.id}"/>
+                    <td><span th:text="${item.price}" class="totalPrice">0</span></td>
+                    <!--                <td>-->
+                    <!--                    <button th:onclick="'deleteItem(' + ${cart.id} + ')'">삭제</button>-->
+                    <!--                </td>-->
                 </tr>
                 </tbody>
             </table>
@@ -212,44 +232,39 @@
                         배송 정보
                     </div>
 
+                    <!--                원래 폼 태그 위치-->
                     <div class="custom-div custom-div-content">
-                        <div th:each="cart, iterStat : ${paymentWrapper.carts}">
-                            <input type="hidden" th:field="*{carts[__${iterStat.index}__].quantity}"
-                                   th:value="${cart.quantity}"/>
-                            <input type="hidden" th:field="*{carts[__${iterStat.index}__].item}"
-                                   th:value="${cart.item}"/>
-                        </div>
 
                         <div class="input-field-wrapper-address">
                             <label for="zipcode">배송지</label>
                             <input type="text" id="zipcode" th:field="*{delivery.zipcode}" class="input-field"
-                                   placeholder="우편 번호를 입력하세요">
+                                   placeholder="우편 번호를 입력하세요" required>
                         </div>
 
                         <div class="input-field-wrapper-address">
                             <div class="empty-div"></div>
                             <input type="text" id="base-address" th:field="*{delivery.baseAddress}" class="input-field"
-                                   placeholder="기본 주소를 입력하세요">
+                                   placeholder="기본 주소를 입력하세요" required>
                         </div>
 
                         <div class="input-field-wrapper">
                             <div class="empty-div"></div>
                             <input type="text" id="detail-address" th:field="*{delivery.detailAddress}"
                                    class="input-field"
-                                   placeholder="상세 주소를 입력하세요">
+                                   placeholder="상세 주소를 입력하세요" required>
                         </div>
 
                         <div class="input-field-wrapper">
                             <label for="recipient-name">받는 사람</label>
                             <input type="text" id="recipient-name" th:field="*{delivery.recipientName}"
                                    class="input-field"
-                                   placeholder="받는 사람의 이름을 입력하세요">
+                                   placeholder="받는 사람의 이름을 입력하세요" required>
                         </div>
 
                         <div class="input-field-wrapper">
                             <label for="phone">핸드폰 번호</label>
                             <input type="tel" id="phone" th:field="*{delivery.phone}" class="input-field"
-                                   placeholder="핸드폰 번호를 입력하세요">
+                                   placeholder="핸드폰 번호를 입력하세요" required>
                         </div>
 
                         <button type="submit">배송지 등록</button>
@@ -286,20 +301,37 @@
                 </div>
 
                 <div class="payment-info">
-                    <p><span class="payment-detail">주문 금액:</span> <span th:text="${orderPrice}"
-                                                                        id="orderPrice">100원</span></p>
+                    <p><span class="payment-detail">주문 금액:</span> <span th:text="${item.price}" id = "orderPrice">100원</span></p>
                     <p><span class="payment-detail">결제 방법:</span> 카드 결제</p>
-                    <p><span class="payment-detail">배송비:</span> <span id="deliveryCost"
-                                                                      th:text="${deliveryCost}">100원</span></p>
+                    <p><span class="payment-detail">배송비:</span> <span id = "deliveryCost" th:text="${deliveryCost}">100원</span></p>
                     <hr/>
-                    <p><span class="payment-detail">최종 결제 금액:</span> <span th:text="${orderPrice + deliveryCost}"
-                                                                           id="finalTotalPrice">100원</span></p>
+                    <p><span class="payment-detail">최종 결제 금액:</span> <span th:text="${item.price + deliveryCost}" id = "finalTotalPrice">100원</span></p>
                 </div>
             </div>
+
         </div>
     </form>
+<!--    <script>-->
+<!--        document.addEventListener("DOMContentLoaded", function() {-->
+<!--            const pricePerItem = parseInt(document.getElementsByClassName("itemPriceText")[0].textContent); // 가격 가져오기-->
+<!--            const deliveryCost = parseInt(document.getElementById("deliveryCost").textContent); // 가격 가져오기-->
+<!--            const quantityInput = document.getElementsByClassName("numberInput")[0]; // 수량 입력 필드-->
+<!--            const totalPriceDisplay = document.getElementsByClassName("totalPrice")[0]; // 총 가격 표시 요소-->
+<!--            const orderPriceDisplay = document.getElementById("orderPrice"); // 주문 가격 표시 요소-->
+<!--            const finalTotalPriceDisplay = document.getElementById("finalTotalPrice"); // 최종 가격 표시 요소-->
+
+<!--            // 수량 변화 시 총 가격 업데이트-->
+<!--            quantityInput.addEventListener("input", function() {-->
+<!--                const quantity = parseInt(quantityInput.value) || 0; // 수량 입력값을 숫자로 변환-->
+<!--                const totalPrice = quantity * pricePerItem; // 수량 * 가격-->
+<!--                totalPriceDisplay.textContent = totalPrice; // 총 가격을 화면에 표시-->
+<!--                orderPriceDisplay.textContent = totalPrice; // 주문 가격을 화면에 표시-->
+<!--                finalTotalPriceDisplay.textContent = totalPrice + deliveryCost; // 최종 금액을 화면에 표시-->
+<!--            });-->
+<!--        });-->
+
+<!--    </script>-->
     <script th:src="@{/js/payment.js}"></script>
-    <script th:src="@{/js/cartDeleteButton.js}"></script>
 </div>
 </body>
 </html>

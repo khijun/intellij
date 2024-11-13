@@ -119,16 +119,23 @@
         //빈 문자열일 시에 다시 오게해야함
     }
 
-    // 이미지 로드 오류를 처리하는 함수
-    function handleImageError(image) {
-        image.onerror = null; // 재귀 호출 방지
-        image.src = '/images/items/main_test_img.jpg'; // 기본 이미지로 대체
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+        // 모든 img 태그 선택
+        const images = document.querySelectorAll("img");
 
-    // HTML 이미지 태그에서 오류 발생 시 대체 이미지 적용
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-        img.onerror = () => handleImageError(img);
+        // 각 img 요소의 src를 확인
+        images.forEach(img => {
+            const originalSrc = img.src;
+
+            // 이미지 로드 이벤트 처리
+            img.onerror = function() {
+                // 이미지가 로드되지 않으면 기본 이미지로 대체
+                img.src = "/images/items/main_test_img.jpg";
+            };
+
+            // 이미지를 다시 로드하도록 src 재설정 (캐싱 방지)
+            img.src = originalSrc;
+        });
     });
 </script>
 

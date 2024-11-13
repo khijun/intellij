@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,9 +27,12 @@ public class Item {
     @JoinColumn(name = "category_id")
     @ToString.Exclude
     private Category category;
-    @OneToMany
+    @OneToMany(mappedBy = "item")
     @ToString.Exclude
     private List<Review> reviews;
+    private String content;
+    private LocalDateTime createDateTime;
+
 
     public String getImageName() {
         if (this.imageName == null) {

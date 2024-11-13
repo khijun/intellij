@@ -182,6 +182,10 @@
                     <td th:text="${rating_avg}">평점데이터값</td>
                 </tr>
                 <tr>
+                    <th>제품 설명</th>
+                    <td th:text="${item.content}">제품설명데이터값</td>
+                </tr>
+                <tr>
                     <th>혜택</th>
                     <td>혜택데이터값</td>
                 </tr>
@@ -204,7 +208,7 @@
             <!-- 주문하기 버튼 추가 -->
             <div class="order-buttons">
                 <button class="btn btn-like">Like</button>
-                <button class="btn btn-order" th:href="@{/order/{id}(id=${item.id})}">주문하기</button>
+                <a class="btn btn-order" th:href="@{/item/payment/{id}(id=${item.id})}">주문하기</a>
                 <a class="btn btn-cart" th:href="@{/cart/add/{id}(id=${item.id})}">카트에 추가하기</a>
             </div>
         </div>

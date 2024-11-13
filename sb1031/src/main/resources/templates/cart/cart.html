@@ -164,6 +164,10 @@
         .delivery, .payment-div {
             margin-bottom: 50px;
         }
+
+        .numberInput {
+            width: 40px;
+        }
     </style>
 </head>
 <body>
@@ -172,59 +176,42 @@
     <h1>장바구니</h1>
 
     <div>
-        <table class="cart-table">
-            <thead>
-            <tr>
-                <th>상품명</th>
-                <th>상품가격</th>
-                <th>수량</th>
-                <th>주문금액</th>
-                <th>기타</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="cart : ${carts}">
-                <td class="item-name">
-                    <img th:src="@{'/images/items/' + ${cart.item.imageName}}" alt="이미지">
-                    <a th:text="${cart.item.name}" th:href="@{/item/{itemId}(itemId = ${cart.item.id})}">아이템 이름</a>
-                </td>
-                <td th:text="${cart.item.price} + '원'">가격</td>
-                <td th:text="${cart.quantity}">수량</td>
-                <td th:text="${cart.item.price * cart.quantity + '원'}">총액</td>
-                <td>
-                    <a th:href="@{'/cart/sub/' + ${cart.item.id}}">
-                        <button type="button">삭제</button>
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td class="item-name">
-                    <img src="/images/items/item_page_test_img.png" alt="삼성 갤럭시 S24">삼성 갤럭시 S24
-                </td>
-                <td>900,000원</td>
-                <td>2</td>
-                <td>1,800,000원</td>
-                <td>
-                    <button>삭제</button>
-                </td>
-            </tr>
-            <tr>
-                <td class="item-name">
-                    <img src="/images/items/item_page_test_img.png" alt="LG OLED TV">LG OLED TV
-                </td>
-                <td>1,500,000원</td>
-                <td>1</td>
-                <td>1,500,000원</td>
-                <td>
-                    <button>삭제</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <form th:object="${paymentWrapper}" method="post">
+            <table class="cart-table">
+                <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>상품가격</th>
+                    <th>수량</th>
+                    <th>주문금액</th>
+                    <th>기타</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="cart, iterStat : ${paymentWrapper.carts}">
+                    <td class="item-name">
+                        <img th:src="@{'/images/items/' + ${cart.item.imageName}}" alt="이미지">
+                        <a th:text="${cart.item.name}" th:href="@{/item/{itemId}(itemId = ${cart.item.id})}">아이템 이름</a>
+                    </td>
+                    <td class="itemPriceText" th:text="${cart.item.price}"></td>
+                    <td><input type="number" class="numberInput" th:field="*{carts[__${iterStat.index}__].quantity}"
+                               th:attr="data-id=${cart.id}"/></td>
+                    <input type="hidden" th:field="*{carts[__${iterStat.index}__].item}" th:value="${cart.item.id}"/>
+                    <td><span th:text="${cart.item.price * cart.quantity}" class="totalPrice">0</span></td>
+                    <td>
+                        <button id="btn-delete-item">삭제</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
         <a th:href="@{'/cart/payment'}">
             <button type="button">결제</button>
         </a>
     </div>
+    <script th:src="@{/js/cart.js}"></script>
+    <script th:src="@{/js/cartDeleteButton.js}"></script>
 </div>
 </body>
 </html>

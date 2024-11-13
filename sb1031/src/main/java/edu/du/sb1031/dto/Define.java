@@ -8,4 +8,6 @@ public class Define {
 
     public static final char MALE = 'M';
     public static final char FEMALE = 'F';
+
+    public static final int DELIVERY = 5000;
 }
