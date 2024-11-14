@@ -1,6 +1,7 @@
 package edu.du.sb1031.service;
 
 
+import edu.du.sb1031.dto.SearchType;
 import edu.du.sb1031.entity.Category;
 import edu.du.sb1031.entity.Item;
 import edu.du.sb1031.exception.CategoryNotFoundException;
@@ -20,7 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemRepository itemRepository;
-    private final CategoryService categoryService;
 
     public void save(Item item) {
         itemRepository.save(item);
@@ -59,37 +59,19 @@ public class ItemService {
         return itemRepository.findByNameLike(name);
     }
 
-    public List<Item> findByTypeAndCategory(String searchType) {
-        return findByTypeAndCategory(searchType, (Long) null);
-    }
-
-    public List<Item> findByTypeAndCategory(String searchType, Long categoryId) {
-        return findByTypeAndCategory(searchType, Collections.singletonList(categoryId));
-    }
-
-    public List<Item> findByTypeAndCategory(String searchType, List<Long> categoryIds) {
-        System.out.println("시작"+categoryIds);
-        if (categoryIds.size() > 1) {
-            categoryIds.removeIf(id -> !categoryService.existsById(id));
-            List<Long> children = categoryIds.stream().map(categoryService::findChildrenById).flatMap(Collection::stream).collect(Collectors.toList());
-            categoryIds = children;
-            System.out.println("children:"+categoryIds);
-        }
-        if(categoryIds.isEmpty()) {
-            categoryIds = null;
-        }
+    public List<Item> findByTypeAndCategory(SearchType searchType, List<Long> categoryIds) {
         switch (searchType) {
-            case "recommend":
+            case RECOMMEND:
                 return itemRepository.findByOrderByTotalRating(categoryIds);
-            case "mostSell":
+            case MOST_SELL:
                 return itemRepository.findByOrderBySellDesc(categoryIds);
-            case "lowPrice":
+            case LOW_PRICE:
                 return itemRepository.findByOrderByPriceAsc(categoryIds);
-            case "highPrice":
+            case HIGH_PRICE:
                 return itemRepository.findByOrderByPriceDesc(categoryIds);
-            case "newest":
+            case NEWEST:
                 return itemRepository.findByOrderByCreateDateTimeDesc(categoryIds);
-            case "mostReviewed":
+            case MOST_REVIEWED:
                 return itemRepository.findByOrderByTotalReview(categoryIds);
             default:
                 throw new InvalidSearchTypeException();

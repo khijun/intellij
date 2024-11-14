@@ -89,7 +89,6 @@
             width: 100%;
             height: 60px;
             border: 1px solid dimgrey;
-            margin-bottom: 50px;
         }
 
         .tab_menu {
@@ -122,18 +121,36 @@
         .tab_menu a:visited {
             color: dimgrey; /* 방문 후에도 링크 색상이 유지되도록 설정 */
         }
+
+        .category-selection {
+            text-align: left; /* 오른쪽 정렬 */
+            margin-bottom: 50px;
+        }
     </style>
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="tab_area">
-        <a href="/search?type=recommend" class="tab_menu">추천순</a>
-        <a href="/search?type=mostSell" class="tab_menu">판매량순</a>
-        <a href="/search?type=lowPrice" class="tab_menu">낮은가격순</a>
-        <a href="/search?type=highPrice" class="tab_menu">높은가격순</a>
-        <a href="/search?type=newest" class="tab_menu">최근등록순</a>
-        <a href="/search?type=mostReviewed" class="tab_menu">후기많은순</a>
-    </div>
+    <form action="/search" method="post">
+        <div class="tab_area">
+            <a href="#" id="recommendLink" class="tab_menu">추천순</a>
+            <a href="#" id="mostSellLink" class="tab_menu">판매량순</a>
+            <a href="#" id="lowPriceLink" class="tab_menu">낮은가격순</a>
+            <a href="#" id="highPriceLink" class="tab_menu">높은가격순</a>
+            <a href="#" id="newestLink" class="tab_menu">최근등록순</a>
+            <a href="#" id="mostReviewedLink" class="tab_menu">후기많은순</a>
+        </div>
+        <div class="category-selection">
+            <label for="categories">카테고리 선택</label>
+            <select id="categories" name="selectedCategory">
+                <!-- 타임리프를 사용하여 카테고리 목록을 옵션으로 나열 -->
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}"
+                        th:selected="${category.id == selectedCategory}">
+                </option>
+            </select>
+        </div>
+    </form>
 
 
     <div class="product-container" th:each="item : ${items}">
@@ -148,10 +165,33 @@
             <div class="price" th:text="'₩' + ${item.price}">₩10,000</div>
             <div class="button-container">
                 <a href="" class="like-button">찜하기</a>
-                <a th:href="@{/cart/add/{id}(id=${item.id})}" class="buy-button">구매하기</a>
+                <a th:href="@{/cart/add/{id}(id=${item.id   })}" class="buy-button">구매하기</a>
             </div>
         </div>
     </div>
+    <script>
+        // 페이지 로딩 후 카테고리 링크 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLinks();  // DOM이 준비되면 링크 초기화
+        });
+
+        // 카테고리 선택 시 링크 업데이트
+        function updateLinks() {
+            const categoryId = document.getElementById('categories').value;
+
+            // 카테고리 ID를 각 링크에 추가
+            const searchParams = `&categoryId=${categoryId}`;
+            document.getElementById('recommendLink').setAttribute('href', '/search?type=recommend' + searchParams);
+            document.getElementById('mostSellLink').setAttribute('href', '/search?type=mostSell' + searchParams);
+            document.getElementById('lowPriceLink').setAttribute('href', '/search?type=lowPrice' + searchParams);
+            document.getElementById('highPriceLink').setAttribute('href', '/search?type=highPrice' + searchParams);
+            document.getElementById('newestLink').setAttribute('href', '/search?type=newest' + searchParams);
+            document.getElementById('mostReviewedLink').setAttribute('href', '/search?type=mostReviewed' + searchParams);
+        }
+
+        // 카테고리 선택 시 링크 업데이트
+        document.getElementById('categories').addEventListener('change', updateLinks);
+    </script>
 </div>
 </body>
 </html>

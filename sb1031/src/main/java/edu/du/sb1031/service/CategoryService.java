@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -119,6 +117,35 @@ public class CategoryService {
     public List<Long> findChildrenById(Long id){
         List<Category> subs = findById(id).getSubcategories();
         return subs == null? Collections.singletonList(id):subs.stream().map(Category::getId).collect(Collectors.toList());
+    }
+
+    public List<Long> getSubCategoryIdsFromIds(List<Long> categoryIds){
+        return getSubCategoriesFromIds(categoryIds).stream().map(Category::getId).collect(Collectors.toList());
+    }
+
+    public List<Category> getSubCategoriesFromIds(List<Long> categoryIds) {
+        Set<Long> uniqueCategoryIds = new HashSet<>(categoryIds);
+        List<Category> categories = uniqueCategoryIds.stream()
+                .map(this::findById)  // categoryId로 Category 찾기
+                .collect(Collectors.toList());
+        return getSubCategories(categories);  // 기존 메서드 호출
+    }
+
+    public List<Category> findByParent(Category category){
+        return categoryRepository.findByParent(category);
+    }
+
+    public List<Category> getSubCategories(List<Category> categories) {
+        Set<Category> result = new LinkedHashSet<>();
+        for(Category category : categories) {
+            List<Category> subCategories = category.getSubcategories();
+            if(subCategories != null && !subCategories.isEmpty()) {
+                result.addAll(subCategories);
+            }else{
+                result.add(category);
+            }
+        }
+        return new ArrayList<>(result);
     }
 
 }
