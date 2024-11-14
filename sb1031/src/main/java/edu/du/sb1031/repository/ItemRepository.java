@@ -3,28 +3,56 @@ package edu.du.sb1031.repository;
 import edu.du.sb1031.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
+
+    // 이름으로 아이템 검색
     public List<Item> findByNameLike(String name);
+
+    // 카테고리별 총 평점 내림차순 정렬
     @Query("SELECT i FROM Item i " +
             "JOIN i.reviews r " +
+            "WHERE i.category.id IN :categoryIds " +
             "GROUP BY i.id " +
             "ORDER BY SUM(r.rating) DESC")
-    public List<Item> findByOrderByTotalRating();
+    public List<Item> findByOrderByTotalRating(@Param("categoryIds") List<Long> categoryIds);
+
+    // 카테고리별 판매량 내림차순 정렬
     @Query("SELECT i FROM Order o " +
-            " JOIN o.orderItems oi " +
-            " right outer join oi.item i " +
+            "JOIN o.orderItems oi " +
+            "RIGHT OUTER JOIN oi.item i " +
+            "WHERE i.category.id IN :categoryIds " +
             "GROUP BY i.id " +
-            "ORDER BY SUM(oi.quantity) desc")
-    public List<Item> findByOrderBySellDesc();
+            "ORDER BY SUM(oi.quantity) DESC")
+    public List<Item> findByOrderBySellDesc(@Param("categoryIds") List<Long> categoryIds);
+
+    // 카테고리별 리뷰 수 내림차순 정렬
     @Query("SELECT i FROM Item i " +
-            " LEFT JOIN i.reviews r " +
+            "LEFT JOIN i.reviews r " +
+            "WHERE i.category.id IN :categoryIds " +
             "GROUP BY i.id " +
-            "ORDER BY count(r) desc")
-    public List<Item> findByOrderByTotalReview();
-    public List<Item> findByOrderByPriceDesc(); // 높은순 내림차순
-    public List<Item> findByOrderByPriceAsc(); // 낮은순 오름차순
-    public List<Item> findByOrderByCreateDateTimeDesc(); // 최근순
+            "ORDER BY COUNT(r) DESC")
+    public List<Item> findByOrderByTotalReview(@Param("categoryIds") List<Long> categoryIds);
+
+    // 카테고리별 가격 내림차순 정렬
+    @Query("SELECT i FROM Item i " +
+            "WHERE i.category.id IN :categoryIds " +
+            "ORDER BY i.price DESC")
+    public List<Item> findByOrderByPriceDesc(@Param("categoryIds") List<Long> categoryIds);
+
+    // 카테고리별 가격 오름차순 정렬
+    @Query("SELECT i FROM Item i " +
+            "WHERE i.category.id IN :categoryIds " +
+            "ORDER BY i.price ASC")
+    public List<Item> findByOrderByPriceAsc(@Param("categoryIds") List<Long> categoryIds);
+
+    // 카테고리별 생성일 내림차순 정렬
+    @Query("SELECT i FROM Item i " +
+            "WHERE i.category.id IN :categoryIds " +
+            "ORDER BY i.createDateTime DESC")
+    public List<Item> findByOrderByCreateDateTimeDesc(@Param("categoryIds") List<Long> categoryIds);
+
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @SessionAttributes(names = "authInfo")
-public class BeginController {
+public class MainController {
 
     @ModelAttribute("authInfo")
     public AuthInfo authInfo() {
@@ -39,9 +39,8 @@ public class BeginController {
     }
 
     @GetMapping("/")
-    public String test(HttpServletRequest request, Model model) {
-        List<Category> categories = categoryService.findAll();
-        categories.removeIf(c -> c.getParent() == null);//향상된 포문이엇는데 인텔리제이가 바꿈;
+    public String mainPage(HttpServletRequest request, Model model) {
+        List<Category> categories = categoryService.findLimitedChildren();
         model.addAttribute("categories", categories);
         return "/main/main";
     }

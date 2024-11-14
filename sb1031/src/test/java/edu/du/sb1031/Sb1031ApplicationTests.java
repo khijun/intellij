@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -38,31 +39,57 @@ class Sb1031ApplicationTests {
 
     @Test
     void itemServiceSearchTest(){
-        String type = "mostSell";
-        List<Item> items = itemService.findByType(type);
+        String type = "recommend";
+        Long categoryId = null;
+        List<Item> items = itemService.findByTypeAndCategory(type);
+        System.out.println(type);
+        items.forEach(System.out::println);
+
+        type = "mostSell";
+        items = itemService.findByTypeAndCategory(type);
         System.out.println(type);
         items.forEach(System.out::println);
 
         type = "lowPrice";
-        items = itemService.findByType(type);
+        items = itemService.findByTypeAndCategory(type);
         System.out.println(type);
         items.forEach(System.out::println);
 
         type = "highPrice";
-        items = itemService.findByType(type);
+        items = itemService.findByTypeAndCategory(type);
         System.out.println(type);
         items.forEach(System.out::println);
 
+        type = "highPrice";
+        categoryId = 1L;
+        items = itemService.findByTypeAndCategory(type);
+        System.out.println(type + categoryId);
+        items.forEach(System.out::println);
+
+        type = "highPrice";
+        categoryId = 5L;
+        items = itemService.findByTypeAndCategory(type, categoryId);
+        System.out.println(type + categoryId);
+        items.forEach(System.out::println);
+
         type = "newest";
-        items = itemService.findByType(type);
+        items = itemService.findByTypeAndCategory(type);
         System.out.println(type);
         items.forEach(System.out::println);
 
         type = "mostReviewed";
-        items = itemService.findByType(type);
+        items = itemService.findByTypeAndCategory(type);
         System.out.println(type);
         items.forEach(System.out::println);
 
+    }
+
+    @Test
+    void searchTest(){
+        List<Long> ids = new ArrayList<>();
+        ids.add(2L);
+        ids.add(3L);
+        itemService.findByTypeAndCategory("highPrice", ids);
     }
 
 }

@@ -4,13 +4,13 @@
     <title>Order Form</title>
 </head>
 <body>
-<form th:action="@{/order}" th:object="${order}" method="post">
+<form th:action="@{/templates/}" th:object="${order}" method="post">
     <h3>주문할 상품 목록</h3>
     <div th:each="item, iterStat : ${order.orderItems}">
         <input type="text" th:field="*{orderItems[__${iterStat.index}__].item}" placeholder="상품 이름" />
         <input type="number" th:field="*{orderItems[__${iterStat.index}__].quantity}" placeholder="주문 개수" />
     </div>
-    <button type="submit" th:formaction="@{/order/add}">상품 추가</button>
+    <button type="submit" th:formaction="@{/templates/}">상품 추가</button>
     <button type="submit">주문 제출</button>
 </form>
 </body>

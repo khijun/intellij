@@ -36,7 +36,7 @@ public class MemberController {
             System.out.println("MemberController.myItem: 인증오류");
             return "redirect:/";
         }
-        return "/member/myItem";
+        return "!!myItem";
     }
 
     @PostMapping("save")

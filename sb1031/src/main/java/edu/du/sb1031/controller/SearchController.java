@@ -27,8 +27,8 @@ public class SearchController {
     }
 
     @GetMapping("/search")
-    public String recommend(Model model, @RequestParam(name = "type") String searchType) {
-        List<Item> items = itemService.findByType(searchType);
+    public String recommend(Model model, @RequestParam(name = "type") String searchType, @RequestParam(name = "categoryId", required = false) List<Long> categoryIds) {
+        List<Item> items = itemService.findByTypeAndCategory(searchType, categoryIds);
         model.addAttribute("items", items);
         return "/search/search";
     }

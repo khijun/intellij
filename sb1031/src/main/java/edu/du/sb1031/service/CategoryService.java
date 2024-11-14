@@ -1,12 +1,18 @@
 package edu.du.sb1031.service;
 
 import edu.du.sb1031.entity.Category;
+import edu.du.sb1031.entity.Item;
+import edu.du.sb1031.exception.CategoryNotFoundException;
+import edu.du.sb1031.exception.ChildrenNotFoundException;
 import edu.du.sb1031.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -85,6 +91,34 @@ public class CategoryService {
 
     public List<Category> findAll(){
         return categoryRepository.findAll();
+    }
+
+    public List<Category> findChildren(){
+        List<Category> list = categoryRepository.findAll();
+        list.removeIf(category -> category.getParent() == null);
+        return list;
+    }
+
+    public List<Category> findLimitedChildren(){
+        List<Category> list = findChildren();
+        for(Category category : list){
+            if(category.getItems().size()>6) category.setItems((category.getItems().subList(0,6)));
+        }
+        list.get(1).getItems().forEach(i->System.out.println(i.getId()));
+        return list;
+    }
+
+    public Category findById(Long id){
+        return categoryRepository.findById(id).orElseThrow(CategoryNotFoundException::new);
+    }
+
+    public boolean existsById(Long id){
+        return categoryRepository.existsById(id);
+    }
+
+    public List<Long> findChildrenById(Long id){
+        List<Category> subs = findById(id).getSubcategories();
+        return subs == null? Collections.singletonList(id):subs.stream().map(Category::getId).collect(Collectors.toList());
     }
 
 }

@@ -7,7 +7,7 @@
 <body>
 <div class="container">
     <h1>Order List</h1>
-    <a class="btn btn-primary" th:href="@{/templates/order/new}">New Order</a>
+    <a class="btn btn-primary" th:href="@{/templates/}">New Order</a>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -25,7 +25,7 @@
             <td th:text="${order.quantity}">1</td>
             <td th:text="${order.shipment.item.price * order.quantity}">100.0</td>
             <td>
-                <a class="btn btn-danger" th:href="@{/templates/order/delete/{id}(id=${order.id})}">Delete</a>
+                <a class="btn btn-danger" th:href="@{/templates/}">Delete</a>
             </td>
         </tr>
         </tbody>

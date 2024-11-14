@@ -3,23 +3,30 @@ package edu.du.sb1031.service;
 
 import edu.du.sb1031.entity.Category;
 import edu.du.sb1031.entity.Item;
+import edu.du.sb1031.exception.CategoryNotFoundException;
+import edu.du.sb1031.exception.InvalidSearchTypeException;
 import edu.du.sb1031.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemRepository itemRepository;
+    private final CategoryService categoryService;
 
     public void save(Item item) {
         itemRepository.save(item);
     }
 
-    public void save(String name, int price, int stock, String company, String imageName, Category category, String content){
+    public void save(String name, int price, int stock, String company, String imageName, Category category, String content) {
         Item item = new Item();
         item.setName(name);
         item.setPrice(price);
@@ -44,36 +51,62 @@ public class ItemService {
 
     }
 
-    public List<Item> findAll() {return itemRepository.findAll();}
+    public List<Item> findAll() {
+        return itemRepository.findAll();
+    }
 
     public List<Item> findByNameLike(String name) {
         return itemRepository.findByNameLike(name);
     }
 
-    public List<Item> findByType(String searchType) {
-        switch(searchType){
-            case "recommend":
-                break;
-            case "mostSell":
-                return itemRepository.findByOrderBySellDesc();
-            case "lowPrice":
-                return itemRepository.findByOrderByPriceAsc();
-            case "highPrice":
-                return itemRepository.findByOrderByPriceDesc();
-            case "newest":
-                return itemRepository.findByOrderByCreateDateTimeDesc();
-            case "mostReviewed":
-                return itemRepository.findByOrderByTotalReview();
-        }
-        throw new RuntimeException();
+    public List<Item> findByTypeAndCategory(String searchType) {
+        return findByTypeAndCategory(searchType, (Long) null);
     }
 
-    public void createComputerPartsItems(List<Category> categories){
+    public List<Item> findByTypeAndCategory(String searchType, Long categoryId) {
+        return findByTypeAndCategory(searchType, Collections.singletonList(categoryId));
+    }
+
+    public List<Item> findByTypeAndCategory(String searchType, List<Long> categoryIds) {
+        System.out.println("시작"+categoryIds);
+        if (categoryIds.size() > 1) {
+            categoryIds.removeIf(id -> !categoryService.existsById(id));
+            List<Long> children = categoryIds.stream().map(categoryService::findChildrenById).flatMap(Collection::stream).collect(Collectors.toList());
+            categoryIds = children;
+            System.out.println("children:"+categoryIds);
+        }
+        if(categoryIds.isEmpty()) {
+            categoryIds = null;
+        }
+        switch (searchType) {
+            case "recommend":
+                return itemRepository.findByOrderByTotalRating(categoryIds);
+            case "mostSell":
+                return itemRepository.findByOrderBySellDesc(categoryIds);
+            case "lowPrice":
+                return itemRepository.findByOrderByPriceAsc(categoryIds);
+            case "highPrice":
+                return itemRepository.findByOrderByPriceDesc(categoryIds);
+            case "newest":
+                return itemRepository.findByOrderByCreateDateTimeDesc(categoryIds);
+            case "mostReviewed":
+                return itemRepository.findByOrderByTotalReview(categoryIds);
+            default:
+                throw new InvalidSearchTypeException();
+        }
+    }
+
+    public void createComputerPartsItems(List<Category> categories) {
         save("Intel Core i9", 1200000, 50, "Intel", "intel_core_i9.jpg", categories.get(0), "최고의 성능을 자랑하는 인텔의 Core i9 프로세서는 멀티태스킹과 고성능 게임, 비디오 편집 작업을 위한 최적의 선택입니다.");
         save("AMD Ryzen 7", 800000, 40, "AMD", "amd_ryzen_7.jpg", categories.get(0), "AMD Ryzen 7은 고성능 게임과 콘텐츠 생성에 적합한 프로세서로, 멀티코어 성능이 뛰어나 멀티스레드 작업에 강력한 성능을 발휘합니다.");
         save("Intel Core i7", 650000, 100, "Intel", "intel_core_i7.jpg", categories.get(0), "인텔의 Core i7은 고급형 프로세서로, 게임과 일상적인 작업에서 우수한 성능을 제공합니다. 뛰어난 처리 속도와 안정성으로 많은 사용자들에게 사랑받고 있습니다.");
         save("AMD Ryzen 5", 550000, 70, "AMD", "amd_ryzen_5.jpg", categories.get(0), "AMD Ryzen 5는 중급 성능의 프로세서로, 다양한 작업을 원활하게 처리할 수 있으며, 가성비가 뛰어나 많은 소비자들에게 적합한 선택입니다.");
         save("Intel Core i5", 400000, 200, "Intel", "intel_core_i5.jpg", categories.get(0), "인텔 Core i5는 뛰어난 성능과 가성비를 자랑하는 프로세서로, 일반적인 게임, 웹 서핑, 오피스 작업에 최적화되어 있습니다.");
+        save("Intel Core i9-13900K", 1400000, 30, "Intel", "intel_core_i9_13900k.jpg", categories.get(0), "인텔의 Core i9-13900K는 13세대 프로세서로, 뛰어난 멀티코어 성능과 고속 클럭 속도를 자랑하여 고성능 게임 및 비디오 편집 작업에 최적입니다.");
+        save("AMD Ryzen 9 7950X", 1500000, 25, "AMD", "amd_ryzen_9_7950x.jpg", categories.get(0), "AMD Ryzen 9 7950X는 16코어 32스레드를 지원하는 고급형 프로세서로, 멀티스레드 작업에서 탁월한 성능을 제공합니다.");
+        save("Intel Core i7-12700K", 850000, 50, "Intel", "intel_core_i7_12700k.jpg", categories.get(0), "인텔 Core i7-12700K는 12세대 프로세서로, 뛰어난 게이밍 성능과 멀티태스킹 성능을 자랑하며, 고급 사용자들에게 적합한 선택입니다.");
+        save("AMD Ryzen 7 7700X", 750000, 60, "AMD", "amd_ryzen_7_7700x.jpg", categories.get(0), "AMD Ryzen 7 7700X는 8코어 16스레드를 지원하는 중고급형 프로세서로, 게임과 생산성 작업에 균형 잡힌 성능을 제공합니다.");
+        save("Intel Core i5-12600K", 600000, 120, "Intel", "intel_core_i5_12600k.jpg", categories.get(0), "인텔 Core i5-12600K는 12세대 프로세서로, 가격 대비 뛰어난 성능을 제공하여 예산을 고려한 사용자들에게 매우 인기 있는 선택입니다.");
 
 
         // 메인보드 카테고리
