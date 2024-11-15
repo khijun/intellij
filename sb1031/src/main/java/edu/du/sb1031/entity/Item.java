@@ -32,6 +32,12 @@ public class Item {
     private List<Review> reviews;
     private String content;
     private LocalDateTime createDateTime;
+    @OneToMany(mappedBy = "item")
+    @ToString.Exclude
+    private List<StockIn> stockIns;
+    @OneToMany(mappedBy = "item")
+    @ToString.Exclude
+    private List<Wishlist> wishlists;
 
 
     public String getImageName() {

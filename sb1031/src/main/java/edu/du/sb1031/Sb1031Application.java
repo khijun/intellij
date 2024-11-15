@@ -4,6 +4,7 @@ import edu.du.sb1031.dto.AuthInfo;
 import edu.du.sb1031.dto.Define;
 import edu.du.sb1031.entity.*;
 import edu.du.sb1031.repository.ItemRepository;
+import edu.du.sb1031.repository.MemberRepository;
 import edu.du.sb1031.repository.ReviewRepository;
 import edu.du.sb1031.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class Sb1031Application {
     private CategoryService categoryService;
     @Autowired
     private ItemRepository itemRepository;
+    @Autowired
+    private DummyService dummyService;
+    @Autowired
+    private MemberRepository memberRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(Sb1031Application.class, args);
@@ -44,15 +49,11 @@ public class Sb1031Application {
     @PostConstruct
     public void init() {
         // 최상위 카테고리 저장
-        itemService.createComputerPartsItems(categoryService.createComputerPartsCategories());
-        Member member1 = new Member(null, "어드민", "admin", "1234", Define.ADMIN, Define.MALE, null, null, null, null);
-        Member member2 = new Member(null, "홍길동", "hong", "1234", Define.USER, Define.MALE,null, null, null,null);
-        Member member3 = new Member(null, "삭제된 유저", "delete", "1234", Define.DELETE, Define.MALE,null,null, null, null);
-        Member member4 = new Member(null, "동결된 유저", "freeze", "1234", Define.FREEZE, Define.MALE,null,null, null, null);
-        memberService.save(member1);
-        memberService.save(member2);
-        memberService.save(member3);
-        memberService.save(member4);
+        dummyService.insertItem(categoryService.createComputerPartsCategories());
+        dummyService.insertMember();
+        dummyService.insertStock();
+
+        Member member2 = memberRepository.findById(2L).get();
         Item item1 = itemRepository.findById(1L).get();
         Item item2 = itemRepository.findById(2L).get();
         Review review = new Review(null, item1, member2, "리뷰 내용", LocalDateTime.now(), 5, 'N', 1);

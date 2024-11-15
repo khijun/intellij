@@ -1,9 +1,6 @@
 package edu.du.sb1031.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @ToString
+@Builder
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +23,16 @@ public class Member {
     private String password;
     private char role;// user, delete, freeze, admin
     private char gender;
-    private LocalDateTime birthday;
+    @Builder.Default
+    private LocalDateTime birthday = LocalDateTime.now();
     @OneToMany(mappedBy = "member")
     List<Order> orders = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     List<Review> reviews = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     List<Cart> carts = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    List<StockIn> stockIns = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    List<Wishlist> wishlists = new ArrayList<>();
 }
