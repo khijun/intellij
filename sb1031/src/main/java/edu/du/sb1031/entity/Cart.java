@@ -20,7 +20,6 @@ public class Cart {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "member_id")
-    @ToString.Exclude
     private Member member;
     @OneToOne
     private Item item;

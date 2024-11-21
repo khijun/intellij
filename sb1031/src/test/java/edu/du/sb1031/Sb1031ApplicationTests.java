@@ -58,4 +58,11 @@ class Sb1031ApplicationTests {
         System.out.println("getSubCategoryIdsFromIds(): "+categoryService.getSubCategoryIdsFromIds(ids));
     }
 
+    @Test
+    void path(){
+        String currentDirectory = System.getProperty("user.dir");
+        System.out.println("현재 프로젝트 디렉토리: " + currentDirectory);
+
+    }
+
 }

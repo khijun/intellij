@@ -23,6 +23,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     public void save(Item item) {
+        if(item.getId() == null&&item.getCreateDateTime() == null) item.setCreateDateTime(LocalDateTime.now());
         itemRepository.save(item);
     }
 
@@ -59,23 +60,4 @@ public class ItemService {
         return itemRepository.findByNameLike(name);
     }
 
-    public List<Item> findByTypeAndCategory(SearchType searchType, List<Long> categoryIds) {
-        switch (searchType) {
-            case RECOMMEND:
-                return itemRepository.findByOrderByTotalRating(categoryIds);
-            case MOST_SELL:
-                return itemRepository.findByOrderBySellDesc(categoryIds);
-            case LOW_PRICE:
-                return itemRepository.findByOrderByPriceAsc(categoryIds);
-            case HIGH_PRICE:
-                return itemRepository.findByOrderByPriceDesc(categoryIds);
-            case NEWEST:
-                return itemRepository.findByOrderByCreateDateTimeDesc(categoryIds);
-            case MOST_REVIEWED:
-                return itemRepository.findByOrderByTotalReview(categoryIds);
-            default:
-                throw new InvalidSearchTypeException();
-        }//searchService로 옵ㄻ겨야함
-
-    }
 }

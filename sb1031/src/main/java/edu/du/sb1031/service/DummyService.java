@@ -5,6 +5,9 @@ import edu.du.sb1031.entity.Category;
 import edu.du.sb1031.entity.Member;
 import edu.du.sb1031.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +18,13 @@ public class DummyService {
     private final MemberRepository memberRepository;
     private final ItemService itemService;
     private final StockService stockService;
+    private final PasswordEncoder passwordEncoder;
 
     public void insertMember() {
         Member member1 = Member.builder()
                 .name("어드민")
                 .username("admin")
-                .password("1234")
+                .password(passwordEncoder.encode("1234"))
                 .role(Define.ADMIN)
                 .gender(Define.MALE)
                 .build();

@@ -3,6 +3,7 @@ package edu.du.sb1031.service;
 import edu.du.sb1031.entity.Cart;
 import edu.du.sb1031.entity.Item;
 import edu.du.sb1031.entity.Member;
+import edu.du.sb1031.exception.CartNotFoundException;
 import edu.du.sb1031.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,8 @@ public class CartService {
         save(cart);
     }
 
-    public Optional<Cart> findById(Long id) {
-        return cartRepository.findById(id);
+    public Cart findById(Long id) {
+        return cartRepository.findById(id).orElseThrow(CartNotFoundException::new);
     }
 
     public void save(Cart cart){

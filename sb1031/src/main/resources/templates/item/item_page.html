@@ -207,9 +207,9 @@
 
             <!-- 주문하기 버튼 추가 -->
             <div class="order-buttons">
-                <button class="btn btn-like">Like</button>
+                <a class="btn btn-like" th:href="@{/wishlist/add/{id}(id=${item.id})}" onclick="alert('찜 목록에 추가되었습니다!')">찜하기</a>
                 <a class="btn btn-order" th:href="@{/item/payment/{id}(id=${item.id})}">주문하기</a>
-                <a class="btn btn-cart" th:href="@{/cart/add/{id}(id=${item.id})}">카트에 추가하기</a>
+                <a class="btn btn-cart" th:href="@{/cart/add/{id}(id=${item.id})}" onclick="alert('장바구니 목록에 추가되었습니다!')">카트에 추가하기</a>
             </div>
         </div>
     </div>
@@ -256,5 +256,7 @@
 
     </div>
 </div>
+<script>
+</script>
 </body>
 </html>

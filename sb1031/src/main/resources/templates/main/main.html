@@ -119,7 +119,7 @@
             <div class="product-grid">
                 <div class="product" th:each="item : ${category.items}">
                     <a th:href="@{'/item/' + ${item.id}} ">
-                        <img th:src="@{/static/images/items/{image}(image=${item.imageName})}" alt="상품 이미지">
+                        <img th:src="@{/images/items/{image}(image=${item.imageName})}" alt="상품 이미지">
                         <div class="product-name" th:text="${item.name}">상품명</div>
                         <div class="product-price" th:text="${item.price}">₩상품가격</div>
                     </a>

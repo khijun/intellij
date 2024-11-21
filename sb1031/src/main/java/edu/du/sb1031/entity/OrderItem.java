@@ -18,10 +18,10 @@ public class OrderItem {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "order_id")
-    @ToString.Exclude
     private Order order;
     private int quantity;
     @OneToOne
     @JoinColumn(name = "item_id")
+    @ToString.Exclude
     private Item item;
 }

@@ -6,7 +6,8 @@ public enum SearchType {
     LOW_PRICE("lowPrice"),
     HIGH_PRICE("highPrice"),
     NEWEST("newest"),
-    MOST_REVIEWED("mostReviewed");
+    MOST_REVIEWED("mostReviewed"),
+    NAME("name");
 
     private final String value;
 

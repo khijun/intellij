@@ -22,12 +22,13 @@ public class Order {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "member_id")
-    @ToString.Exclude
     private Member member;
     @OneToOne
     @JoinColumn(name = "delivery_id")
+    @ToString.Exclude
     private Delivery delivery;
     @OneToMany(mappedBy = "order", orphanRemoval = true)
+    @ToString.Exclude
     private List<OrderItem> orderItems = new ArrayList<>();
     private String status; // 주문 상태 (예: "주문 접수", "배송 중", "배송 완료")
 

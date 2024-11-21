@@ -16,7 +16,7 @@ public class StockIn {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name="itemId")
+    @JoinColumn(name="item_id")
     private Item item;
     private int quantity;
     @Builder.Default

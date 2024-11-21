@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 페이지</title>
+    <style>
+        /* 스타일 코드 생략 */
+    </style>
+</head>
+<body>
+
+<div class="signup-container">
+    <h2>회원가입</h2>
+    <form th:action="@{/register}" th:object="${member}" method="POST">
+        <!-- 이름 필드 -->
+        <div class="input-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" th:field="*{name}" required placeholder="이름을 입력하세요">
+        </div>
+
+        <!-- 성별 필드 -->
+        <div class="input-group">
+            <label for="gender">성별</label>
+            <select id="gender" th:field="*{gender}" required>
+                <option value="M">남성</option>
+                <option value="F">여성</option>
+            </select>
+        </div>
+
+        <!-- 생년월일 필드 -->
+        <div class="input-group">
+            <label for="birthday">생년월일</label>
+            <input type="date" id="birthday" th:field="*{birthday}" required>
+        </div>
+
+        <!-- 아이디 필드 -->
+        <div class="input-group">
+            <label for="username">아이디</label>
+            <div class="username-wrapper">
+                <input type="text" id="username" th:field="*{username}" required placeholder="아이디를 입력하세요">
+                <button type="button" onclick="checkUsername(this)">중복 확인</button>
+            </div>
+        </div>
+
+        <!-- 비밀번호 필드 -->
+        <div class="input-group">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" th:field="*{password}" required placeholder="비밀번호를 입력하세요">
+        </div>
+
+<!--        &lt;!&ndash; 이메일 필드 &ndash;&gt;-->
+<!--        <div class="input-group">-->
+<!--            <label for="email">이메일</label>-->
+<!--            <input type="email" id="email" th:field="*{email}" required placeholder="이메일을 입력하세요">-->
+<!--        </div>-->
+
+        <!-- 회원가입 버튼 -->
+        <button type="submit" class="signup-button">회원가입</button>
+    </form>
+
+    <!-- 로그인 버튼 -->
+    <a href="/login">
+        <button type="button" class="login-button">로그인</button>
+    </a>
+
+    <!-- 에러 메시지 표시 -->
+    <div class="error-message">
+        <p>이미 사용 중인 아이디나 이메일입니다.</p>
+    </div>
+</div>
+
+<script>
+    function checkUsername(element) {
+        if(element.value==null){
+            alert("아이디칸이 비어있습니다!");
+            return;
+        }
+        fetch(`/register/checkUsername`)
+            .then(response=>response.json())
+            .then(response => {
+                if(response.ok){
+                    alert(response.message);
+                }else{
+                    alert(response.message);
+                    element.value = "";
+                }
+            })
+    }
+</script>
+
+</body>
+</html>

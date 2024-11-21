@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register New Item</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            max-width: 1300px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        form {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 0; /* 각진 테두리 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 0; /* 각진 테두리 */
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: none;
+        }
+
+        .form-actions {
+            text-align: center;
+        }
+
+        .form-actions button {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 0; /* 각진 테두리 */
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-actions button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+<h1>Register New Item</h1>
+<form th:action="@{/item/add}" method="post" enctype="multipart/form-data" th:object="${command}">
+    <div class="form-group">
+        <label for="name">Item Name:</label>
+        <input type="text" id="name" th:field="*{item.name}" required>
+    </div>
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" id="price" th:field="*{item.price}" required>
+    </div>
+    <div class="form-group">
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" th:field="*{item.stock}" required>
+    </div>
+    <div class="form-group">
+        <label for="company">Company:</label>
+        <input type="text" id="company" th:field="*{item.company}">
+    </div>
+    <div class="form-group">
+        <label for="imageName">Image:</label>
+        <input type="file" id="imageName" name="imageFile">
+    </div>
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <select id="category" th:field="*{item.category}" required>
+            <option value="" disabled selected>Select a category</option>
+            <option th:each="category : ${command.categories}"
+                    th:value="${category.id}"
+                    th:text="${category.name}">
+            </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea id="content" th:field="*{item.content}" rows="5"></textarea>
+    </div>
+    <div class="form-actions">
+        <button type="submit">Register Item</button>
+    </div>
+</form>
+</body>
+</html>

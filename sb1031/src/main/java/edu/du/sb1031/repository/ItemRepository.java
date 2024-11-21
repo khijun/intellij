@@ -54,4 +54,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "WHERE i.category.id IN :categoryIds " +
             "ORDER BY i.createDateTime DESC")
     public List<Item> findByOrderByCreateDateTimeDesc(@Param("categoryIds") List<Long> categoryIds);
+
+    public List<Item> findByCategoryId(Long categoryId);
+    @Query("SELECT i.id, i.name FROM Item i " +
+            "WHERE i.category.id = :categoryId")
+    public List<Object[]> findByCategoryIdByStockDto(@Param("categoryId") Long categoryId);
 }

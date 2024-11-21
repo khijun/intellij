@@ -6,6 +6,7 @@ import edu.du.sb1031.entity.Item;
 import edu.du.sb1031.entity.Wishlist;
 import edu.du.sb1031.exception.InvalidSearchTypeException;
 import edu.du.sb1031.exception.WishlistNotFoundException;
+import edu.du.sb1031.repository.ItemRepository;
 import edu.du.sb1031.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,11 @@ public class SearchService {
     private final ItemService itemService;
     private final CategoryService categoryService;
     private final WishlistRepository wishlistRepository;
+    private final ItemRepository itemRepository;
 
     public List<Item> searchByTypeAndCategories(SearchType searchType, List<Long> categoryIds) {
         if(searchType == null ) searchType = SearchType.MOST_SELL;
 
-        return itemService.findByTypeAndCategory(searchType, categoryService.getSubCategoryIdsFromIds(categoryIds));
         switch (searchType) {
             case RECOMMEND:
                 return itemRepository.findByOrderByTotalRating(categoryIds);
@@ -45,8 +46,7 @@ public class SearchService {
 
     public List<Item> searchByWishlistFromMemberId(Long memberId) {
         List<Wishlist> wishlist = wishlistRepository.findByMemberIdOrderByIdDesc(memberId);
-        if(wishlist.isEmpty()) throw new WishlistNotFoundException();
-        return wishlist.stream().map(Wishlist::getItem).collect(Collectors.toList());
+        return wishlist.isEmpty()?null:wishlist.stream().map(Wishlist::getItem).collect(Collectors.toList());
     }
 
 }

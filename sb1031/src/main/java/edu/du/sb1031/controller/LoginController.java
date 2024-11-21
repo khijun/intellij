@@ -16,34 +16,33 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
     private AuthService authService;
 
-    @GetMapping
-    public String form(Model model) {
-        model.addAttribute("loginCommand", new LoginCommand());
-    	return "/login/loginForm";
+    @GetMapping("/login")
+    public String form() {
+        System.out.println("뭔가 잘못되고있음");
+    	return "/login/login";
     }
 
-    @PostMapping
-    public String submit(@Valid LoginCommand loginCommand, Errors errors, HttpSession session) {
-
-        if (errors.hasErrors()) {
-            return "/login/loginForm";
-        }
-        try {
-            AuthInfo authInfo = authService.authenticate(
-                    loginCommand.getUsername(),
-                    loginCommand.getPassword());
-            session.setAttribute("authInfo", authInfo);
-            System.out.println(authInfo.getId() + " 세션 저장!");
-            return "redirect:/";
-        } catch (WrongUsernamePasswordException e) {
-            errors.reject("idPasswordNotMatching");
-            return "/login/loginForm";
-        }
-    }
+//    @PostMapping
+//    public String submit(@Valid LoginCommand loginCommand, Errors errors, HttpSession session) {
+//
+//        if (errors.hasErrors()) {
+//            return "/login/loginForm";
+//        }
+//        try {
+//            AuthInfo authInfo = authService.authenticate(
+//                    loginCommand.getUsername(),
+//                    loginCommand.getPassword());
+//            session.setAttribute("authInfo", authInfo);
+//            System.out.println(authInfo.getId() + " 세션 저장!");
+//            return "redirect:/";
+//        } catch (WrongUsernamePasswordException e) {
+//            errors.reject("idPasswordNotMatching");
+//            return "/login/loginForm";
+//        }
+//    }
 }

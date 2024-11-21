@@ -24,12 +24,13 @@ public class Category {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    @ToString.Exclude
     private Category parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Category> subcategories = new ArrayList<>();
     @OneToMany(mappedBy = "category")
+    @ToString.Exclude
     private List<Item> items = new ArrayList<>();
 
     // Constructor, getters, setters

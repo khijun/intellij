@@ -14,7 +14,6 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(mappedBy = "delivery")
-    @ToString.Exclude
     private Order order;
     private String zipcode; // 우편번호
     private String baseAddress; // 기본 주소

@@ -4,50 +4,51 @@ import edu.du.sb1031.dto.AuthInfo;
 import edu.du.sb1031.dto.Define;
 import edu.du.sb1031.dto.PaymentWrapper;
 import edu.du.sb1031.entity.*;
+import edu.du.sb1031.exception.ItemNotFoundException;
+import edu.du.sb1031.exception.MemberNotFoundException;
+import edu.du.sb1031.repository.CartRepository;
+import edu.du.sb1031.repository.MemberRepository;
 import edu.du.sb1031.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cart")
 @RequiredArgsConstructor
 public class CartController {
 
-    private final CartService cs;
-    private final MemberService ms;
-    private final ItemService is;
-    private final OrderItemService ois;
-    private final OrderService os;
-    private final DeliveryService ds;
     private final CartService cartService;
+    private final MemberService memberService;
+    private final ItemService itemService;
+    private final CartRepository cartRepository;
+    private final MemberRepository memberRepository;
 
     @GetMapping
-    public String cart(HttpServletRequest request, Model model) {
+    public String cart(HttpServletRequest request, @SessionAttribute AuthInfo authInfo, Model model) {
         try {
-            Long memberId = ((AuthInfo) request.getSession().getAttribute("authInfo")).getId();
-            System.out.println(memberId);
-            Member member = ms.findById(memberId);
-            System.out.println(member);
-            List<Cart> carts = cs.findByMember(member);
-            System.out.println(carts);
-            model.addAttribute("paymentWrapper", new PaymentWrapper(null,carts));
+            Member member = memberService.findById(authInfo.getId());
+            List<Cart> carts = cartService.findByMember(member);
+            model.addAttribute("paymentWrapper", new PaymentWrapper(null, carts));
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("CartController.cart: 인증 실패");
         }
         return "/cart/cart";
     }
 
     @GetMapping("/payment")
-    public String payment(@SessionAttribute AuthInfo authInfo,HttpServletRequest request, Model model) {
+    public String payment(@SessionAttribute AuthInfo authInfo, HttpServletRequest request, Model model) {
         try {
-            Long memberId = authInfo.getId();
-            Member member = ms.findById(memberId);
-            List<Cart> carts = cs.findByMember(member);
+            Member member = memberService.findById(authInfo.getId());
+            List<Cart> carts = cartService.findByMember(member);
             PaymentWrapper pw = new PaymentWrapper();
             pw.setCarts(carts);
             model.addAttribute("paymentWrapper", pw);
@@ -65,45 +66,34 @@ public class CartController {
     }
 
     @GetMapping("/add/{id}")
-    public String add(@PathVariable(name = "id") Long itemId, Model model, HttpServletRequest request) {
+    public String add(@PathVariable(name = "id") Long itemId, @SessionAttribute AuthInfo authInfo, RedirectAttributes redirectAttributes) {
+        System.out.println("authInfo 아이디: "+authInfo.getId());
         Cart cart = new Cart();
         Member member;
         Item item;
         try {
-            Long memberId = ((AuthInfo) request.getSession(true).getAttribute("authInfo")).getId();
-            member = ms.findById(memberId);
-            System.out.println("멤버: " + member);
-            item = is.findById(itemId);
-            System.out.println("아이템: " + item);
+            member = memberService.findById(authInfo.getId());
+            item = itemService.findById(itemId);
             if (member == null || item == null) {
                 throw new Exception();
             }
-            System.out.println("추가중");
             cart.setMember(member);
             cart.setItem(item);
             cart.setQuantity(1);    // 기본값, 수정 여부 불확실
-            cs.add(cart);
+            cartService.add(cart);
+            redirectAttributes.addFlashAttribute("message", "성공적으로 추가되었습니다!");
         } catch (Exception e) {
             System.out.println("CartController.add: 인증 실패");
         }
         return "redirect:/cart";
     }
 
-    @GetMapping("/sub/{id}")
-    public String sub(@PathVariable(name = "id") Long itemId, Model model, HttpServletRequest request) {
-        try {
-            Long memberId = ((AuthInfo) request.getSession(true).getAttribute("authInfo")).getId();
-            Member member = ms.findById(memberId);
-            Item item = is.findById(itemId);
-            if (member == null || item == null) {
-                throw new Exception();
-            }
-            Cart cart = cs.findByMemberAndItem(member, item);
-            cartService.delete(cart);
-        } catch (Exception e) {
-            System.out.println("CartController.sub: 인증 실패");
-        }
-        return "redirect:/cart";
+    @DeleteMapping("/delete/{cartId}")
+    @ResponseBody
+    public ResponseEntity<?> sub(@PathVariable Long cartId,@SessionAttribute AuthInfo authInfo) {
+        Cart cart = cartService.findById(cartId); // 추가 변경필요
+        cartService.delete(cart);
+        return ResponseEntity.ok("삭제 완료");
     }
 
 }

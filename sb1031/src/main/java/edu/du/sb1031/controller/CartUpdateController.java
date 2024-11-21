@@ -24,7 +24,7 @@ public class CartUpdateController {
         Long cartId = Long.valueOf(payload.get("cartId").toString());
         int newValue = Integer.parseInt(payload.get("number").toString());
 
-        Cart cart = cs.findById(cartId).orElseThrow(ItemNotFoundException::new);
+        Cart cart = cs.findById(cartId);
 
         cart.setQuantity(newValue);
         cs.save(cart);
@@ -37,7 +37,7 @@ public class CartUpdateController {
         try {
             Long cartId = ((Number) payload.get("cartId")).longValue();
             System.out.println(cartId);
-            Cart cart = cs.findById(cartId).orElseThrow(ItemNotFoundException::new);
+            Cart cart = cs.findById(cartId);
             System.out.println(cart);
             cs.delete(cart);
             System.out.println("!!! deleteItem");

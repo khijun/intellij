@@ -155,7 +155,7 @@
 
     <div class="product-container" th:each="item : ${items}">
         <a th:href="@{/item/{id}(id=${item.id})}" class="product-image">
-            <img th:src="@{'/static/images/items/' + ${item.imageName}}" alt="상품 이미지">
+            <img th:src="@{'/images/items/' + ${item.imageName}}" alt="상품 이미지">
         </a>
         <div class="product-info">
             <a class="product-name" th:href="@{/item/{id}(id=${item.id})}" th:text="${item.name}">상품 이름</a>

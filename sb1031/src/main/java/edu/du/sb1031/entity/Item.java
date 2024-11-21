@@ -25,7 +25,6 @@ public class Item {
     private String imageName;
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @ToString.Exclude
     private Category category;
     @OneToMany(mappedBy = "item")
     @ToString.Exclude

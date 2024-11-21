@@ -17,11 +17,9 @@ public class Review {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "item_id")
-    @ToString.Exclude
     private Item item;
     @ManyToOne
     @JoinColumn(name = "member_id")
-    @ToString.Exclude
     private Member member;
     private String content;
     private LocalDateTime replyTime;

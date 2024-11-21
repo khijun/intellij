@@ -21,18 +21,23 @@ public class Member {
     @Column(unique = true)
     private String username;
     private String password;
-    private char role;// user, delete, freeze, admin
+    private String role;// user, delete, freeze, admin
     private char gender;
     @Builder.Default
     private LocalDateTime birthday = LocalDateTime.now();
     @OneToMany(mappedBy = "member")
+    @ToString.Exclude
     List<Order> orders = new ArrayList<>();
     @OneToMany(mappedBy = "member")
+    @ToString.Exclude
     List<Review> reviews = new ArrayList<>();
     @OneToMany(mappedBy = "member")
+    @ToString.Exclude
     List<Cart> carts = new ArrayList<>();
     @OneToMany(mappedBy = "member")
+    @ToString.Exclude
     List<StockIn> stockIns = new ArrayList<>();
     @OneToMany(mappedBy = "member")
+    @ToString.Exclude
     List<Wishlist> wishlists = new ArrayList<>();
 }
