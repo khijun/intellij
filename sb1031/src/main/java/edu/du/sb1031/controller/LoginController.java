@@ -23,7 +23,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public String form() {
-        System.out.println("뭔가 잘못되고있음");
     	return "/login/login";
     }
 
