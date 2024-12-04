@@ -6,15 +6,13 @@ import edu.du.sb1031.entity.Category;
 import edu.du.sb1031.entity.Item;
 import edu.du.sb1031.exception.CategoryNotFoundException;
 import edu.du.sb1031.exception.InvalidSearchTypeException;
+import edu.du.sb1031.exception.NotEnoughStockException;
 import edu.du.sb1031.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +20,7 @@ import java.util.stream.Collectors;
 public class ItemService {
     private final ItemRepository itemRepository;
 
-    public void save(Item item) {
+    public void save(Item item){
         if(item.getId() == null&&item.getCreateDateTime() == null) item.setCreateDateTime(LocalDateTime.now());
         itemRepository.save(item);
     }
@@ -60,4 +58,9 @@ public class ItemService {
         return itemRepository.findByNameLike(name);
     }
 
+    public Item subStock(Item item, int quantity){
+        item.setStock(item.getStock()-quantity);
+        if(item.getStock()<0) throw new NotEnoughStockException();
+        return itemRepository.save(item);
+    }
 }

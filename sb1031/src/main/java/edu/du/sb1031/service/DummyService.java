@@ -19,12 +19,13 @@ public class DummyService {
     private final ItemService itemService;
     private final StockService stockService;
     private final PasswordEncoder passwordEncoder;
+    private final MemberService memberService;
 
     public void insertMember() {
         Member member1 = Member.builder()
                 .name("어드민")
                 .username("admin")
-                .password(passwordEncoder.encode("1234"))
+                .password("1234")
                 .role(Define.ADMIN)
                 .gender(Define.MALE)
                 .build();
@@ -52,10 +53,10 @@ public class DummyService {
                 .gender(Define.MALE)
                 .build();
 
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-        memberRepository.save(member3);
-        memberRepository.save(member4);
+        memberService.save(member1);
+        memberService.save(member2);
+        memberService.save(member3);
+        memberService.save(member4);
     }
 
     public void insertItem(List<Category> categories) {

@@ -10,7 +10,8 @@ public class Define {
     public static final char MALE = 'M';
     public static final char FEMALE = 'F';
 
-    public static final String ITEMIMAGESPATH = "C:/_dev/IdeaProjects/sb1031/src/main/resources/static/images/items";
-
+    public static final String ITEMIMAGESPATH = "C:/uploads";
     public static final int DELIVERY = 5000; // 배송비
+
+    public static final String AWAITINGDELEIVERY = "배송 대기중";
 }

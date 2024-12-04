@@ -1,8 +1,10 @@
 package edu.du.sb1031.entity;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,8 @@ public class Member {
     private String role;// user, delete, freeze, admin
     private char gender;
     @Builder.Default
-    private LocalDateTime birthday = LocalDateTime.now();
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday = LocalDate.now();
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     List<Order> orders = new ArrayList<>();

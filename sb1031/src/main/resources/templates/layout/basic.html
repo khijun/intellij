@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout">
 <head>
     <meta charset="UTF-8">
@@ -92,7 +93,6 @@
     </style>
 </head>
 <body>
-
 <!-- 네비게이션 바 -->
 <div class="navbar" th:fragment="navbar">
     <div class="left">
@@ -103,10 +103,15 @@
         </div>
     </div>
     <div class="right">
-        <a href="#" th:href="@{/}">상품 목록</a>
-        <a href="#" th:href="@{/wishlists}">찜 목록</a>
-        <a href="#" th:href="@{/cart}">장바구니</a>
-        <a href="#" th:href="@{/login}" class="no-border">로그인</a>
+        <a sec:authorize="not hasAnyRole('ADMIN', 'MANAGER')" th:href="@{/}">상품 목록</a>
+        <a sec:authorize="not hasAnyRole('ADMIN', 'MANAGER')" th:href="@{/wishlists}">찜 목록</a>
+        <a sec:authorize="not hasAnyRole('ADMIN', 'MANAGER')" th:href="@{/cart}">장바구니</a>
+        <a sec:authorize="not isAuthenticated()" th:href="@{/login}"
+           class="no-border">로그인</a>
+        <a sec:authorize="hasAnyRole('ADMIN', 'MANAGER')" th:href="@{/item/add}">상품 추가</a>
+        <a sec:authorize="hasAnyRole('ADMIN', 'MANAGER')" th:href="@{/item/stockIn}">재고 추가</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/logout}"
+           class="no-border">로그아웃</a>
     </div>
 </div>
 
@@ -120,24 +125,24 @@
         //빈 문자열일 시에 다시 오게해야함
     }
 
-    // document.addEventListener("DOMContentLoaded", function() {
-    //     // 모든 img 태그 선택
-    //     const images = document.querySelectorAll("img");
-    //
-    //     // 각 img 요소의 src를 확인
-    //     images.forEach(img => {
-    //         const originalSrc = img.src;
-    //
-    //         // 이미지 로드 이벤트 처리
-    //         img.onerror = function() {
-    //             // 이미지가 로드되지 않으면 기본 이미지로 대체
-    //             img.src = "/images/items/main_test_img.jpg";
-    //         };
-    //
-    //         // 이미지를 다시 로드하도록 src 재설정 (캐싱 방지)
-    //         img.src = originalSrc;
-    //     });
-    // });
+    document.addEventListener("DOMContentLoaded", function () {
+        // 모든 img 태그 선택
+        const images = document.querySelectorAll("img");
+
+        // 각 img 요소의 src를 확인
+        images.forEach(img => {
+            const originalSrc = img.src;
+
+            // 이미지 로드 이벤트 처리
+            img.onerror = function () {
+                // 이미지가 로드되지 않으면 기본 이미지로 대체
+                img.src = "/images/items/main_test_img.jpg";
+            };
+
+            // 이미지를 다시 로드하도록 src 재설정 (캐싱 방지)
+            img.src = originalSrc;
+        });
+    });
 </script>
 
 </body>

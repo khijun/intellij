@@ -162,12 +162,12 @@
 <body>
 <div layout:fragment="content">
 
-    <h1 th:text="${item.name}">상품 상세 정보</h1>
+    <h1 th:text="${itemDetailDto.item.name}">상품 상세 정보</h1>
 
     <div class="container">
         <!-- 상품 이미지 칸 -->
         <div class="image-container">
-            <img src="/images/items/item_page_test_img.png" alt="상품 이미지"/>
+            <img th:src="@{/files(filename=${itemDetailDto.item.imageName})}" alt="상품 이미지">
         </div>
 
         <!-- 상세정보 및 주문하기 버튼 -->
@@ -175,15 +175,15 @@
             <table>
                 <tr>
                     <th>판매가</th>
-                    <td th:text="${item.price}"></td>
+                    <td th:text="${itemDetailDto.item.price}"></td>
                 </tr>
                 <tr>
                     <th>평점</th>
-                    <td th:text="${rating_avg}">평점데이터값</td>
+                    <td  th:text="${itemDetailDto.ratingAverage == null? #messages.msg('review.not.exist'): itemDetailDto.ratingAverage}">평점데이터값</td>
                 </tr>
                 <tr>
                     <th>제품 설명</th>
-                    <td th:text="${item.content}">제품설명데이터값</td>
+                    <td th:text="${itemDetailDto.item.content}">제품설명데이터값</td>
                 </tr>
                 <tr>
                     <th>혜택</th>
@@ -191,25 +191,25 @@
                 </tr>
                 <tr>
                     <th>제조사</th>
-                    <td th:text="${item.company}">제조사데이터값</td>
+                    <td th:text="${itemDetailDto.item.company}">제조사데이터값</td>
                 </tr>
-                <tr>
-                    <th>옵션 선택</th>
-                    <td>
-                        <button>추가 옵션 선택</button>
-                    </td>
-                </tr>
+<!--                <tr>-->
+<!--                    <th>옵션 선택</th>-->
+<!--                    <td>-->
+<!--                        <button>추가 옵션 선택</button>-->
+<!--                    </td>-->
+<!--                </tr>-->
                 <tr>
                     <th>재고</th>
-                    <td th:text="${item.stock}"></td>
+                    <td th:text="${itemDetailDto.item.stock}"></td>
                 </tr>
             </table>
 
             <!-- 주문하기 버튼 추가 -->
             <div class="order-buttons">
-                <a class="btn btn-like" th:href="@{/wishlist/add/{id}(id=${item.id})}" onclick="alert('찜 목록에 추가되었습니다!')">찜하기</a>
-                <a class="btn btn-order" th:href="@{/item/payment/{id}(id=${item.id})}">주문하기</a>
-                <a class="btn btn-cart" th:href="@{/cart/add/{id}(id=${item.id})}" onclick="alert('장바구니 목록에 추가되었습니다!')">카트에 추가하기</a>
+                <a class="btn btn-like" th:href="@{/wishlist/add/{id}(id=${itemDetailDto.item.id})}" onclick="alert('찜 목록에 추가되었습니다!')">찜하기</a>
+                <a class="btn btn-order" th:href="@{/item/payment/{id}(id=${itemDetailDto.item.id})}">주문하기</a>
+                <a class="btn btn-cart" th:href="@{/cart/add/{id}(id=${itemDetailDto.item.id})}" onclick="alert('장바구니 목록에 추가되었습니다!')">카트에 추가하기</a>
             </div>
         </div>
     </div>
@@ -227,7 +227,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="review, iterStat : ${reviews}">
+            <tr th:if="${itemDetailDto.reviews.isEmpty()}"><td colspan="6" style="text-align: center" th:text="${#messages.msg('review.not.exist')}">Reviews aren't exist</td></tr>
+            <tr th:each="review, iterStat : ${itemDetailDto.reviews}">
                 <td th:text="${iterStat.index + 1}"></td> <!-- 번호 (1부터 시작) -->
                 <td th:text="${review.rating}"></td> <!-- 별점 -->
                 <td th:text="${review.content}"></td> <!-- 내용 -->
@@ -235,28 +236,50 @@
                 <td th:text="${#temporals.format(review.replyTime, 'yyyy-MM-dd HH:mm')}"></td> <!-- 작성일 (날짜 포맷팅) -->
                 <td th:text="${review.likes}"></td> <!-- 추천 -->
             </tr>
-            <tr>
-                <td>2</td>
-                <td>★★★☆☆</td>
-                <td>품질이 괜찮지만 배송이 늦었습니다.</td>
-                <td>김영희</td>
-                <td>2024-11-05</td>
-                <td>18명</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>★★★★★</td>
-                <td>가격 대비 성능이 우수해요.</td>
-                <td>박철수</td>
-                <td>2024-11-04</td>
-                <td>30명</td>
-            </tr>
             </tbody>
         </table>
+
+        <!-- 리뷰 작성 섹션 -->
+        <div class="review-section">
+            <h2>리뷰 작성</h2>
+            <form th:action="@{/item/review}" th:object="${reviewDto}" method="post">
+                <input type="hidden" th:field="*{itemId}"/>
+                <table class="review-table">
+                    <tbody>
+                    <tr>
+                        <th>별점</th>
+                        <td>
+                            <label>
+                                <select name="rating" th:field="*{rating}" required>
+                                    <option value="5">★★★★★ (5점)</option>
+                                    <option value="4">★★★★☆ (4점)</option>
+                                    <option value="3">★★★☆☆ (3점)</option>
+                                    <option value="2">★★☆☆☆ (2점)</option>
+                                    <option value="1">★☆☆☆☆ (1점)</option>
+                                </select>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>내용</th>
+                        <td>
+                            <label>
+                                <textarea name="content" th:field="*{content}" placeholder="리뷰 내용을 작성하세요" required></textarea>
+                            </label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn">리뷰 등록</button>
+            </form>
+        </div>
+
+        <div th:if="${message}" th:attr="data-message=${message}"></div>
 
     </div>
 </div>
 <script>
+
 </script>
 </body>
 </html>

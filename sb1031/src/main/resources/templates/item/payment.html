@@ -210,7 +210,7 @@
                 <tbody>
                 <tr>
                     <td class="item-name">
-                        <img th:src="@{'/images/items/' + ${item.imageName}}" alt="이미지">
+                        <img th:src="@{/files(filename=${item.imageName})}" alt="상품 이미지">
                         <a th:text="${item.name}" th:href="@{/item/{itemId}(itemId = ${item.id})}">아이템 이름</a>
                     </td>
                     <td class="itemPriceText" th:text="${item.price}"></td>

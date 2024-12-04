@@ -1,7 +1,6 @@
 package edu.du.sb1031;
 
-import edu.du.sb1031.dto.AuthInfo;
-import edu.du.sb1031.dto.Define;
+import edu.du.sb1031.config.ReviewStatus;
 import edu.du.sb1031.entity.*;
 import edu.du.sb1031.repository.ItemRepository;
 import edu.du.sb1031.repository.MemberRepository;
@@ -56,7 +55,7 @@ public class Sb1031Application {
         Member member2 = memberRepository.findById(2L).get();
         Item item1 = itemRepository.findById(1L).get();
         Item item2 = itemRepository.findById(2L).get();
-        Review review = new Review(null, item1, member2, "리뷰 내용", LocalDateTime.now(), 5, 'N', 1);
+        Review review = new Review(null, item1, member2, "리뷰 내용", LocalDateTime.now(), 5, ReviewStatus.NORMAL, 1);
         rr.save(review);
 
         //카트에 물품추가

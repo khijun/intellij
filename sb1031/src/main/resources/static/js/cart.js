@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
     const itemPriceElements = document.querySelectorAll('.itemPriceText');
     const totalPriceElements = document.querySelectorAll('.totalPrice');
+    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
 
     itemPriceElements.forEach(formatElement);
     totalPriceElements.forEach(formatElement);
@@ -9,12 +11,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const cartId = inputElement.getAttribute("data-id");
         const newValue = inputElement.value;
 
-        fetch('/updateNumber', {
-            method: 'POST',
+        fetch(`/cart/updateNumber/${cartId}`, {
+            method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                [csrfHeader] : csrfToken
             },
-            body: JSON.stringify({cartId: cartId, number: newValue})
+            body: JSON.stringify({number: newValue})
         })
             .then(response => {
                 if (response.ok) {

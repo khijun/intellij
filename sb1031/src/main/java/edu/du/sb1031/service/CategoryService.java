@@ -91,18 +91,34 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public List<Category> findChildren(){
-        List<Category> list = categoryRepository.findAll();
+    public List<Category> findChildrenOrderByIdAsc(){
+        List<Category> list = categoryRepository.findByOrderByIdAsc();
+        list.removeIf(category -> category.getParent() == null);
+        return list;
+    }
+
+    public List<Category> findChildrenOrderByIdDesc(){
+        List<Category> list = categoryRepository.findByOrderByIdDesc();
         list.removeIf(category -> category.getParent() == null);
         return list;
     }
 
     public List<Category> findLimitedChildren(){
-        List<Category> list = findChildren();
-        for(Category category : list){
-            if(category.getItems().size()>6) category.setItems((category.getItems().subList(0,6)));
+        List<Category> list = findChildrenOrderByIdAsc();
+        Iterator<Category> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Category category = iterator.next();
+            // Category의 아이템이 비어있으면 리스트에서 제거
+            if (category.getItems().isEmpty()) {
+                iterator.remove();  // Iterator에서 제공하는 remove() 메서드를 사용하여 안전하게 항목 삭제
+            }
+            // 아이템을 ID 내림차순으로 정렬
+            category.getItems().sort(Comparator.comparing(Item::getId).reversed());
+            // 아이템이 6개를 초과하면 6개만 남기고 자르기
+            if (category.getItems().size() > 6) {
+                category.setItems(category.getItems().subList(0, 6));
+            }
         }
-        list.get(1).getItems().forEach(i->System.out.println(i.getId()));
         return list;
     }
 

@@ -21,11 +21,12 @@ public enum SearchType {
 
     // 필요시 특정 동작을 추가할 수 있습니다.
     public static SearchType fromValue(String value) {
+        if(value == null) return NEWEST;
         for (SearchType type : values()) {
             if (type.getValue().equalsIgnoreCase(value)) {
                 return type;
             }
         }
-        return MOST_SELL;
+        return NEWEST;
     }
 }

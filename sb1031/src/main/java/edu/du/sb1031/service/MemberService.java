@@ -6,6 +6,9 @@ import edu.du.sb1031.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ public class MemberService {
     private MemberRepository mr;
     @Autowired
     private PasswordEncoder passwordEncoder;// 순환참조
+    @Autowired
+    private MemberRepository memberRepository;
 
     public Member findById(Long id) {
         return mr.findById(id).orElseThrow(MemberNotFoundException::new);

@@ -1,11 +1,13 @@
 function deleteItem(buttonElement) {
-    event.preventDefault();
     const cartId = buttonElement.getAttribute("data-id");
+    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
 
-    fetch(`/cart/delete/${cartId}`, {
+    fetch(`/cart/deleteItem/${cartId}`, {
         method: 'DELETE',  // DELETE 요청
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            [csrfHeader] : csrfToken
         },
     })
         .then(response => {

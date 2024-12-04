@@ -152,10 +152,10 @@
         </div>
     </form>
 
-
+    <p th:if="${items.isEmpty()}" th:text="${#messages.msg('item.notFound')}"></p>
     <div class="product-container" th:each="item : ${items}">
         <a th:href="@{/item/{id}(id=${item.id})}" class="product-image">
-            <img th:src="@{'/images/items/' + ${item.imageName}}" alt="상품 이미지">
+            <img th:src="@{/files(filename=${item.imageName})}" alt="상품 이미지">
         </a>
         <div class="product-info">
             <a class="product-name" th:href="@{/item/{id}(id=${item.id})}" th:text="${item.name}">상품 이름</a>
@@ -165,7 +165,7 @@
             <div class="price" th:text="'₩' + ${item.price}">₩10,000</div>
             <div class="button-container">
                 <a href="" class="like-button">찜하기</a>
-                <a th:href="@{/cart/add/{id}(id=${item.id   })}" class="buy-button">구매하기</a>
+                <a th:href="@{/cart/add/{id}(id=${item.id})}" class="buy-button">구매하기</a>
             </div>
         </div>
     </div>

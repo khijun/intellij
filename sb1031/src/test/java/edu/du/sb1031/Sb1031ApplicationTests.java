@@ -1,14 +1,13 @@
 package edu.du.sb1031;
 
+import edu.du.sb1031.dto.MainPageItemsDto;
 import edu.du.sb1031.entity.Cart;
 import edu.du.sb1031.entity.Category;
 import edu.du.sb1031.entity.Item;
 import edu.du.sb1031.entity.Member;
+import edu.du.sb1031.repository.CategoryRepository;
 import edu.du.sb1031.repository.ItemRepository;
-import edu.du.sb1031.service.CartService;
-import edu.du.sb1031.service.CategoryService;
-import edu.du.sb1031.service.ItemService;
-import edu.du.sb1031.service.MemberService;
+import edu.du.sb1031.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +29,12 @@ class Sb1031ApplicationTests {
     ItemService itemService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private MainPageItemsService mainPageItemsService;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     void contextLoads() {
@@ -63,6 +68,24 @@ class Sb1031ApplicationTests {
         String currentDirectory = System.getProperty("user.dir");
         System.out.println("현재 프로젝트 디렉토리: " + currentDirectory);
 
+    }
+
+    @Test
+    void imageServiceTest(){
+//        imageService.saveImage();
+//        파일 어캐넣냐
+    }
+
+    @Test
+    @Transactional
+    void mainPageItemsService(){
+        List<MainPageItemsDto> data = mainPageItemsService.getMainPageData();
+        data.forEach(d ->{
+            System.out.println("배너 아이템: "+d.getBannerItem());
+            d.getItems().forEach(i->{
+                System.out.println("아이템: " + i);
+            });
+        });
     }
 
 }

@@ -126,14 +126,19 @@
             text-align: left; /* 오른쪽 정렬 */
             margin-bottom: 50px;
         }
+        p {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <div layout:fragment="content">
-
+    <div th:if="${wishlists.isEmpty()}">
+        <p th:text="${#messages.msg('wishlist.empty')}"></p> <!-- wishlists가 비었을 때 메시지 출력 -->
+    </div>
     <div class="product-container" th:each="wishlist : ${wishlists}">
         <a th:href="@{/item/{id}(id=${wishlist.item.id})}" class="product-image">
-            <img th:src="@{'/static/images/items/' + ${wishlist.item.imageName}}" alt="상품 이미지">
+            <img th:src="@{/files(filename=${wishlist.item.imageName})}" alt="상품 이미지">
         </a>
         <div class="product-info">
             <a class="product-name" th:href="@{/item/{id}(id=${wishlist.item.id})}" th:text="${wishlist.item.name}">상품 이름</a>
@@ -142,7 +147,7 @@
         <div class="product-buy">
             <div class="price" th:text="'₩' + ${wishlist.item.price}">₩10,000</div>
             <div class="button-container">
-                <a th:href="@{/cart/add/{id}(id=${wishlist.item.id})}" class="buy-button">구매하기</a>
+                <a th:href="@{/item/payment/{id}(id=${item.id})}" class="buy-button">구매하기</a>
             </div>
         </div>
     </div>

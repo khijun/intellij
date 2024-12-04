@@ -37,6 +37,9 @@ public class Item {
     @OneToMany(mappedBy = "item")
     @ToString.Exclude
     private List<Wishlist> wishlists;
+    @OneToMany(mappedBy = "item")
+    @ToString.Exclude
+    private List<OrderItem> orderItems;
 
 
     public String getImageName() {

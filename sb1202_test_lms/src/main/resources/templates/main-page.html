@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - 메인 페이지</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box; /* box-sizing을 border-box로 설정 */
+        }
+
+        .card {
+            border: none; /* 카드 자체의 테두리 제거 */
+            border-radius: 0; /* 둥글지 않게 */
+        }
+
+        .card-header {
+            background-color: #5c9ce6; /* 연한 파란색 */
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px;
+            border: 2px solid #4a89c7; /* 헤더의 테두리 색상 변경 */
+            border-radius: 0 !important; /* 헤더의 둥근 테두리 제거 */
+        }
+
+        .card-body {
+            background-color: #f4f7fb; /* 부드러운 배경색 */
+            font-size: 1rem;
+            padding: 15px;
+            border: 2px solid lightgrey; /* 내용 부분의 테두리 색상 */
+            border-top: none; /* 카드 헤더와 내용의 경계선이 겹치지 않도록 */
+        }
+
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+        }
+
+        .category-item {
+            cursor: pointer;
+            padding: 10px 15px;
+        }
+
+        .category-item:hover {
+            background-color: #e6f1ff;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
+
+        .category-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .content-area {
+            padding-left: 20px;
+        }
+
+        .list-group-item {
+            border: 1px solid #ddd; /* 항목 테두리 설정 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">학습 관리 시스템 (LMS)</h1>
+
+    <div class="row">
+        <!-- 왼쪽: 카테고리 목록 -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4>카테고리</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <!-- 카테고리 리스트 출력 (예: '마이페이지', '정규교과목 목록' 등) -->
+                        <li class="list-group-item category-item" onclick="showCategoryContent('myPage')">마이페이지</li>
+                        <li class="list-group-item category-item" onclick="showCategoryContent('regularCourses')">정규교과목
+                            목록
+                        </li>
+                        <li class="list-group-item category-item" onclick="showCategoryContent('irregularCourses')">
+                            비정규교과 목록
+                        </li>
+                        <li class="list-group-item category-item" onclick="showCategoryContent('messages')">쪽지</li>
+                        <li class="list-group-item category-item" onclick="showCategoryContent('announcements')">공지사항
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 가운데: 선택된 카테고리 내용 -->
+        <div class="col-md-6 content-area">
+            <div class="card">
+                <div class="card-header">
+                    <h4>선택한 카테고리 내용</h4>
+                </div>
+                <div class="card-body" id="category-content">
+                    <p>카테고리를 선택해주세요.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 오른쪽: 공지사항 -->
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-header">
+            <h4>공지사항</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <!-- 공지사항 출력 -->
+                <th:block th:each="announcement : ${mainPageData.announcements}">
+                    <li class="list-group-item">
+                        <p th:text="${announcement}">공지사항 메시지</p>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // 카테고리 클릭 시 해당 카테고리의 내용을 표시하는 기능 추가
+    $(document).ready(function () {
+        $('.category-item').click(function () {
+            const categoryId = $(this).data('id');
+            const categoryName = $(this).text();
+
+            // 카테고리 내용 업데이트 (여기서는 예시로 카테고리 이름만 표시)
+            $('#category-content').html('<h5>' + categoryName + ' 내용</h5><p>선택한 카테고리의 상세 내용을 여기에 표시합니다.</p>');
+        });
+    });
+</script>
+
+</body>
+</html>

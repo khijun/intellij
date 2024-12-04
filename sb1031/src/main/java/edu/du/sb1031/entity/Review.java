@@ -1,5 +1,6 @@
 package edu.du.sb1031.entity;
 
+import edu.du.sb1031.config.ReviewStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,8 @@ public class Review {
     private String content;
     private LocalDateTime replyTime;
     private int rating;
-    private char status;
+    @Enumerated(EnumType.STRING)
+    private ReviewStatus status;
     private int likes;
+
 }

@@ -1,9 +1,6 @@
 package edu.du.sb1031.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +18,7 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
     private int quantity;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "item_id")
     @ToString.Exclude
     private Item item;

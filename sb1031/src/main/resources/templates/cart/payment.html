@@ -190,7 +190,7 @@
                 <tbody>
                 <tr th:each="cart, iterStat : ${paymentWrapper.carts}">
                     <td class="item-name">
-                        <img th:src="@{'/images/items/' + ${cart.item.imageName}}" alt="이미지">
+                        <img th:src="@{/files(filename=${cart.item.imageName})}" alt="상품 이미지">
                         <a th:text="${cart.item.name}" th:href="@{/item/{itemId}(itemId = ${cart.item.id})}">아이템 이름</a>
                     </td>
                     <td class="itemPriceText" th:text="${cart.item.price}"></td>

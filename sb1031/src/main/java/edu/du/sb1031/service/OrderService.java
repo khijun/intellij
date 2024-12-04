@@ -1,5 +1,7 @@
 package edu.du.sb1031.service;
 
+import edu.du.sb1031.dto.Define;
+import edu.du.sb1031.entity.Delivery;
 import edu.du.sb1031.entity.Member;
 import edu.du.sb1031.entity.Order;
 import edu.du.sb1031.repository.OrderRepository;
@@ -16,6 +18,15 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     public Order save(Order order) {
+        return orderRepository.save(order);
+    }
+
+    public Order save(Member member, Delivery delivery) {
+        Order order = Order.builder()
+                .delivery(delivery)
+                .member(member)
+                .status(Define.AWAITINGDELEIVERY)
+                .build();
         return orderRepository.save(order);
     }
 

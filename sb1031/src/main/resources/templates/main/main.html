@@ -1,11 +1,12 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/basic.html}" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>카테고리 및 상품 페이지</title>
+    <title>EZ Shop</title>
     <style>
         a{
             text-decoration: none;
@@ -119,7 +120,7 @@
             <div class="product-grid">
                 <div class="product" th:each="item : ${category.items}">
                     <a th:href="@{'/item/' + ${item.id}} ">
-                        <img th:src="@{/images/items/{image}(image=${item.imageName})}" alt="상품 이미지">
+                        <img th:src="@{/files(filename=${item.imageName})}" alt="상품 이미지">
                         <div class="product-name" th:text="${item.name}">상품명</div>
                         <div class="product-price" th:text="${item.price}">₩상품가격</div>
                     </a>
